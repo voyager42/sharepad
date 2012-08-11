@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Share your own...</h1>
+<p>
+  <form name="input" action="/share" method="post">
+
+    <fieldset>
+      <legend>Pizza Base</legend>
+      <ol>
+        <li>
+          <label for="pizza_base">Margherita</label>
+          <input type="radio" name="pizza_base" value="margherita" />
+        </li>
+        <li>
+          <label for="pizza_base">Mini Margherita</label>
+          <input type="radio" name="pizza_base" value="mini_margherita" />
+        </li>
+        <li>
+          <label for="pizza_base">Gluten Free</label>
+          <input type="radio" name="pizza_base" value="gluten_free" />
+        </li>
+        <li>
+          <label for="pizza_base">Wholewheat</label>
+          <input type="radio" name="pizza_base" value="wholewheat" />
+        </li>
+        <li>
+          <label for="pizza_base">Chakalaka</label>
+          <input type="radio" name="pizza_base" value="chakalaka" />
+        </li>
+        <li>
+          <label for="pizza_base">Garlic Focaccia</label>
+          <input type="radio" name="pizza_base" value="garlic_focaccia" />
+        </li>
+        <li>
+          <label for="pizza_base">Cheese Foccacia</label>
+          <input type="radio" name="pizza_base" value="cheese_foccacia" />
+        </li>
+        <li>
+          <label for="pizza_base">Herb Foccacia</label>
+          <input type="radio" name="pizza_base" value="herb_foccacia" />
+        </li>
+        <li>
+          <label for="pizza_base">Pizza Wrap</label>
+          <input type="radio" name="pizza_base" value="pizza_wrap" />
+        </li>
+        <li>
+          <label for="pizza_base">Rosso</label>
+          <input type="radio" name="pizza_base" value="rosso" />
+        </li>
+        <li>
+          <label for="pizza_base">Nutella (Desert Pizza)</label>
+          <input type="radio" name="pizza_base" value="nutella" />
+        </li>
+      </ol>
+    </fieldset>
+
+<fieldset>
+      <legend>Extra Cheese</legend>
+      <ol>
+        <li>
+          <label for="extra_cheese">Cheddar</label>
+          <input type="radio" name="extra_cheese" value="cheddar" />
+        </li>
+        <li>
+          <label for="extra_cheese">Feta</label>
+          <input type="radio" name="extra_cheese" value="feta" />
+        </li>
+        <li>
+          <label for="extra_cheese">Gorgonzola</label>
+          <input type="radio" name="extra_cheese" value="gorgonzola" />
+        </li>
+        <li>
+          <label for="extra_cheese">Haloumi</label>
+          <input type="radio" name="extra_cheese" value="haloumi" />
+        </li>
+        <li>
+          <label for="extra_cheese">Mozzarella</label>
+          <input type="radio" name="extra_cheese" value="mozzarella" />
+        </li>
+        <li>
+          <label for="extra_cheese">Mini Mozzarella</label>
+          <input type="radio" name="extra_cheese" value="mini_mozzarella" />
+        </li>
+        <li>
+          <label for="extra_cheese">Parmigiano</label>
+          <input type="radio" name="extra_cheese" value="parmigiano" />
+        </li>
+      </ol>
+    </fieldset>
+    <input type="submit" value="Submit" />
+  </form>
+</p>
+{% endblock %}
