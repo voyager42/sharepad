@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Share your own...</h1>
+<img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
+<ul class=pizza>
+<ul>
+{% for item in (pizza.keys(),pizza.values()) %}
+    {% k,v = item %}
+    <li>{{ k }} - {{ v }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

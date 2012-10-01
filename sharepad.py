@@ -1,10 +1,44 @@
-from flask import Flask, flash, redirect, render_template, \
-     request, url_for, session
+from __future__ import with_statement
+from contextlib import closing
+import sqlite3
+from flask import Flask, flash, redirect, render_template, request, url_for, session, g
+from collections import defaultdict
+
+# configuration
+DATABASE = '/tmp/sharepad.db'
+DEBUG = True
+SECRET_KEY = 'development key'
+USERNAME = 'admin'
+PASSWORD = 'default'
 
 app = Flask(__name__)
+app.config.from_object(__name__)
 
-app.secret_key = 'some_secret'
+def connect_db():
+    """Returns a new connection to the database."""
+    return sqlite3.connect(app.config['DATABASE'])
 
+
+def init_db():
+    """Creates the database tables."""
+    with closing(connect_db()) as db:
+        with app.open_resource('schema.sql') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+
+@app.before_request
+def before_request():
+    """Make sure we are connected to the database each request."""
+    g.db = connect_db()
+
+
+@app.teardown_request
+def teardown_request(exception):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'db'):
+        g.db.close()
+        
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -49,13 +83,24 @@ def projects():
 def about():
     return 'The about page'
 
+def process_form(form):
+    items = defaultdict(list)
+    for k in form.keys():
+        items[k] = form.getlist(k)
+    print "////////////////////////////////////////"    
+    print items
+    return items
+
 @app.route('/share', methods=['GET', 'POST'])
 def share():
     if request.method == 'POST':
-        flash('Got it!')
-        return redirect(url_for('index'))
-    else:    
-        return render_template('share.html')
+        # validate in js?        
+        # write to database
+        submitted = process_form(request.form)
+        return render_template('pizza.html', pizza=submitted)
+       #g.db.execute('insert into entries (ingredients) values (?)', [request.form['ingredients']])
+    return render_template('share.html')
+                               
 
 @app.route('/logout')
 def logout():
