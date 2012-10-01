@@ -2,11 +2,23 @@
 {% block body %}
 <h1>Share your own...</h1>
 <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
-<ul class=pizza>
-<ul>
-{% for item in (pizza.keys(),pizza.values()) %}
-    {% k,v = item %}
-    <li>{{ k }} - {{ v }}</li>
-{% endfor %}
+<div class="message">
+  Sounds delicious!
+</div>
+<ul class="pizza">
+  {% for k in (pizza.keys()) %}
+  <h2>{{ k }}</h2>
+  {% for v in (pizza[k]) %}
+  {{ v }}
+  {% endfor %}
+  {% endfor %}
 </ul>
+<div class="social">
+  Share this pizza on
+  <ul class="icons">
+    <li>Facebook</li>
+    <li>Twitter</li>
+  </ul>
+</div>
 {% endblock %}
+
