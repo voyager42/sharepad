@@ -1,82 +1,404 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<title>Multi-page template</title> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
-</head> 
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Andiccio24 Share your own</title>
+    <link rel="stylesheet"
+	  href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+  </head>
+  <body>
 
+    <!-- Start of first page: #one -->
+    <div data-role="page" id="one">
+
+      <div data-role="header">
+	<h1>Andiccio24</h1>
+      </div><!-- /header -->
+
+      <div data-role="content" >
+        <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>	
+	<h2>Share your own</h2>
 	
-<body> 
+	<p>You have created your masterpiece and everyone just has to try it.  Enter your base and toppings on the Order Pad below, submit and then share on Facebook or Twitter.</p>
+        <p>Or if you are at your favourite Andiccio24 outlet but just can't decide what to pick, get some pizza inspiration.  See the highest rated pizzas, look at random pizzas until one strikes your fancy or find which combinations work with your favourite topping.</p>
 
-<!-- Start of first page: #one -->
-<div data-role="page" id="one">
+	<!-- <p>You link to internal pages by referring to the <code>id</code> of the page you want to show. For example, to <a href="#two" >link</a> to the page with an <code>id</code> of "two", my link would have a <code>href="#two"</code> in the code.</p>	 -->
 
-	<div data-role="header">
-		<h1>Multi-page</h1>
-	</div><!-- /header -->
+	<h3>Next:</h3>
+	<p><a href="#two" data-role="button">Share your own pizza</a></p>
+	<p><a href="#three" data-role="button">Get some pizza inspiration</a></p>	
+	<!-- <p><a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a></p> -->
+      </div><!-- /content -->
+      
+      <div data-role="footer" data-theme="d">
+	<h4>Page Footer</h4>
+        This app is not endorsed by Andiccio24 in any way
+      </div><!-- /footer -->
+    </div><!-- /page one -->
 
-	<div data-role="content" >	
-		<h2>One</h2>
-		
-		<p>I have an <code>id</code> of "one" on my page container. I'm first in the source order so I'm shown when the page loads.</p>	
-		
-		<p>This is a multi-page boilerplate template that you can copy to build your first jQuery Mobile page. This template contains multiple "page" containers inside, unlike a <a href="page-template.html"> single page template</a> that has just one page within it.</p>	
-		<p>Just view the source and copy the code to get started. All the CSS and JS is linked to the jQuery CDN versions so this is super easy to set up. Remember to include a meta viewport tag in the head to set the zoom level.</p>
-		<p>You link to internal pages by referring to the <code>id</code> of the page you want to show. For example, to <a href="#two" >link</a> to the page with an <code>id</code> of "two", my link would have a <code>href="#two"</code> in the code.</p>	
 
-		<h3>Show internal pages:</h3>
-		<p><a href="#two" data-role="button">Show page "two"</a></p>	
-		<p><a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a></p>
-	</div><!-- /content -->
+    <!-- Start of second page: #two -->
+    <div data-role="page" id="two" data-theme="d">
+
+      <div data-role="header">
+        <h1>Share your own...</h1>
+      </div><!-- /header -->
+
+      <div data-role="content" data-theme="d">
+        <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
+        <p>
+
+          <form name="input" action="/share" method="post">
+            <div data-role="collapsible-set">
+	      <div data-role="collapsible" data-collapsed="false">
+		<h3>Pizza Base</h3>
+                <fieldset>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="pizza_base">Margherita</label><input type="radio" name="pizza_base" value="margherita"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Mini Margherita</label><input type="radio" name="pizza_base" value="mini_margherita"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Gluten Free</label>
+                      <input type="radio" name="pizza_base" value="gluten_free"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Wholewheat</label>
+                      <input type="radio" name="pizza_base" value="wholewheat"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Chakalaka</label>
+                      <input type="radio" name="pizza_base" value="chakalaka"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Garlic Focaccia</label>
+                      <input type="radio" name="pizza_base" value="garlic_focaccia"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Cheese Foccacia</label>
+                      <input type="radio" name="pizza_base" value="cheese_foccacia"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Herb Foccacia</label>
+                      <input type="radio" name="pizza_base" value="herb_foccacia"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Pizza Wrap</label>
+                      <input type="radio" name="pizza_base" value="pizza_wrap"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Rosso</label> <input type="radio" name="pizza_base" value="rosso"/>
+                    </li>
+                    <li>
+                      <label for="pizza_base">Nutella (Desert Pizza)</label>
+                      <input type="radio" name="pizza_base" value="nutella"/>
+                    </li>
+                  </ul>
+                </fieldset>
+	      </div>
+	      <div data-role="collapsible">
+		<h3>Extra Cheese</h3>
+                <fieldset>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="extra_cheese">Cheddar</label>
+                      <input type="checkbox" name="extra_cheese" value="cheddar"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Feta</label>
+                      <input type="checkbox" name="extra_cheese" value="feta"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Gorgonzola</label>
+                      <input type="checkbox" name="extra_cheese" value="gorgonzola"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Haloumi</label>
+                      <input type="checkbox" name="extra_cheese" value="haloumi"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Mozzarella</label>
+                      <input type="checkbox" name="extra_cheese" value="mozzarella"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Mini Mozzarella</label>
+                      <input type="checkbox" name="extra_cheese" value="mini_mozzarella"/>
+                    </li>
+                    <li>
+                      <label for="extra_cheese">Parmigiano</label>
+                      <input type="checkbox" name="extra_cheese" value="parmigiano"/>
+                    </li>
+                  </ul>
+                </fieldset>
+	      </div>
+	      <div data-role="collapsible">
+		<h3>Meat, Fish and Poultry</h3>
+                <fieldset>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="meat_fish_and_poultry">Anchovies</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="anchovies"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Bacon</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="bacon"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Biltong</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="biltong"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Bacon</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="bacon"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Chourico</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="chourizo"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Egg (x2)</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="egg_x2"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Ham</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="ham"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Lamb</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="lamb"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Mince</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="mince"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Parma Ham</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="parma_ham"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Salami</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="salami"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Bacon</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="bacon"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Spare Ribs</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="spare_ribs"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Spicy Chicken</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="spicy_chicken"/>
+                    </li>
+                    <li>
+                      <label for="meat_fish_and_poultry">Tuna</label>
+                      <input type="checkbox" name="meat_fish_and_poultry" value="tuna"/>
+                    </li>
+                  </ul>
+                </fieldset>
+	      </div>
+	      <div data-role="collapsible">
+		<h3>Veggies</h3>
+                <fieldset>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="veggies">Almonds (Roasted)</label>
+                      <input type="checkbox" name="veggies" value="almonds_roasted"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Artichokes</label>
+                      <input type="checkbox" name="veggies" value="artichokes"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Avocado</label>
+                      <input type="checkbox" name="veggies" value="avocado"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Baby Marrow</label>
+                      <input type="checkbox" name="veggies" value="baby_marrow"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Bananas</label>
+                      <input type="checkbox" name="veggies" value="bananas"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Brinjals</label>
+                      <input type="checkbox" name="veggies" value="brinjals"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Capers</label>
+                      <input type="checkbox" name="veggies" value="capers"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Caramelised Onions</label>
+                      <input type="checkbox" name="veggies" value="caramelised_onions"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Cherry Tomatoes</label>
+                      <input type="checkbox" name="veggies" value="cherry_tomatoes"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Green Peppers</label>
+                      <input type="checkbox" name="veggies" value="green_peppers"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Jalapenos</label>
+                      <input type="checkbox" name="veggies" value="jalapenos"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Mushrooms</label>
+                      <input type="checkbox" name="veggies" value="mushrooms"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Olives</label>
+                      <input type="checkbox" name="veggies" value="olives"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Onions</label>
+                      <input type="checkbox" name="veggies" value="onions"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Peppadews</label>
+                      <input type="checkbox" name="veggies" value="peppadews"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Pineapple</label>
+                      <input type="checkbox" name="veggies" value="pineapple"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Sesame Seeds</label>
+                      <input type="checkbox" name="veggies" value="sesame_seeds"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Spinach</label>
+                      <input type="checkbox" name="veggies" value="spinach"/>
+                    </li>
+                    <li>
+                      <label for="veggies">Sundried Tomatoes</label>
+                      <input type="checkbox" name="veggies" value="sundried_tomatoes"/>
+                    </li>
+                  </ul>
+                </fieldset>
+	      </div>
+	      <div data-role="collapsible">
+		<h3>Herbs</h3>
+                <fieldset>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="herbs">Basil</label>
+                      <input type="checkbox" name="herbs" value="basil"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Chillies</label>
+                      <input type="checkbox" name="herbs" value="chillies"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Chives</label>
+                      <input type="checkbox" name="herbs" value="chives"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Coriander</label>
+                      <input type="checkbox" name="herbs" value="coriander"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Garlic</label>
+                      <input type="checkbox" name="herbs" value="garlic"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Roasted Garlic</label>
+                      <input type="checkbox" name="herbs" value="roasted_garlic"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Rocket</label>
+                      <input type="checkbox" name="herbs" value="rocket"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Rosemary</label>
+                      <input type="checkbox" name="herbs" value="rosemary"/>
+                    </li>
+                    <li>
+                      <label for="herbs">Spring Onions</label>
+                      <input type="checkbox" name="herbs" value="spring_onions"/>
+                    </li>
+                  </ul>
+                </fieldset>
+	      </div>
+	      <div data-role="collapsible">
+                <fieldset>
+                  <legend>Sweets</legend>
+                  <ul data-role="listview" data-inset="true">
+                    <li>
+                      <label for="sweets">Flake</label>
+                      <input type="checkbox" name="sweets" value="flake"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Jelly Tots</label>
+                      <input type="checkbox" name="sweets" value="jelly_tots"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Marshmallows</label>
+                      <input type="checkbox" name="sweets" value="marshmallows"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Oreo Biscuits</label>
+                      <input type="checkbox" name="sweets" value="oreo_biscuits"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Peppermint Aero</label>
+                      <input type="checkbox" name="sweets" value="peppermint_aero"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Smarties</label>
+                      <input type="checkbox" name="sweets" value="smarties"/>
+                    </li>
+                    <li>
+                      <label for="sweets">Whispers</label>
+                      <input type="checkbox" name="sweets" value="whispers"/>
+                    </li>
+                    <li>
+                      <label for="sweets">100's & 1000's</label>
+                      <input type="checkbox" name="sweets" value="100s_and_1000s"/>
+                    </li>
+                  </ul>
+                </fieldset>
+              </div> 
+              <input type="submit" value="Submit"/>
+            </div><!-- collapsible-set -->
+          </form>
+        </p>
+	<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to page "one"</a></p>	
 	
-	<div data-role="footer" data-theme="d">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
-</div><!-- /page one -->
+      </div><!-- /content -->
+      
+      <div data-role="footer">
+	<h4>Page Footer</h4>
+      </div><!-- /footer -->
+    </div><!-- /page two -->
 
 
-<!-- Start of second page: #two -->
-<div data-role="page" id="two" data-theme="a">
+    <!-- Start of third page: #popup -->
+    <div data-role="page" id="popup">
 
-	<div data-role="header">
-		<h1>Two</h1>
-	</div><!-- /header -->
+      <div data-role="header" data-theme="e">
+	<h1>Dialog</h1>
+      </div><!-- /header -->
 
-	<div data-role="content" data-theme="a">	
-		<h2>Two</h2>
-		<p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>	
-		<p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>	
-		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to page "one"</a></p>	
-		
-	</div><!-- /content -->
-	
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
-</div><!-- /page two -->
+      <div data-role="content" data-theme="d">	
+	<h2>Popup</h2>
+	<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
+	<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
+      </div><!-- /content -->
+      
+      <div data-role="footer">
+	<h4>Page Footer</h4>
+      </div><!-- /footer -->
+    </div><!-- /page popup -->
 
-
-<!-- Start of third page: #popup -->
-<div data-role="page" id="popup">
-
-	<div data-role="header" data-theme="e">
-		<h1>Dialog</h1>
-	</div><!-- /header -->
-
-	<div data-role="content" data-theme="d">	
-		<h2>Popup</h2>
-		<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
-		<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
-	</div><!-- /content -->
-	
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
-</div><!-- /page popup -->
-
-</body>
+  </body>
 </html>
