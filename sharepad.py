@@ -4,8 +4,9 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
 
+# TODO: store this in a common locatio
 # configuration
-DATABASE = '/tmp/sharepad.db'
+DATABASE = 'sharepad.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -17,7 +18,6 @@ app.config.from_object(__name__)
 def connect_db():
     """Returns a new connection to the database."""
     return sqlite3.connect(app.config['DATABASE'])
-
 
 def init_db():
     """Creates the database tables."""
