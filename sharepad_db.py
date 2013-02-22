@@ -1,6 +1,7 @@
 from __future__ import with_statement
 from contextlib import closing
 import sqlite3
+import datetime
 
 # TODO: store this in a common location
 # configuration
@@ -103,30 +104,30 @@ ingredients = [
 ]
 
 
-def create_toppingtypes_table():
+def create_ingredienttypes_table():
     con = connect_db()
     with con:
         cur = con.cursor()
-        cur.execute("DROP TABLE IF EXISTS ToppingTypes;")
-        cur.execute("CREATE TABLE ToppingTypes(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, DisplayName TEXT);")
+        cur.execute("DROP TABLE IF EXISTS IngredientTypes;")
+        cur.execute("CREATE TABLE IngredientTypes (Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, DisplayName TEXT);")
 
-def init_toppingstypes_table():
+def init_ingredienttypes_table():
     con = connect_db()
     with con:
         cur = con.cursor()
         for i in ingr_types:
             t = (i[0], i[1])
-            cur.execute("INSERT INTO ToppingTypes (Name, DisplayName) VALUES (?, ?);", t)
+            cur.execute("INSERT INTO Ingredienttypes (Name, DisplayName) VALUES (?, ?);", t)
             print " %s : %s" % (cur.lastrowid, t)
 
-def get_toppingtype_id(toppingtype):
-    print "Looking for " + toppingtype
+def get_ingredienttype_id(ingredienttype):
+    print "Looking for Ingredient Type" + ingredienttype
     con = connect_db()
     with con:
         cur = con.cursor()
-        cur.execute("SELECT Id FROM ToppingTypes WHERE Name=?", (toppingtype,))
+        cur.execute("SELECT Id FROM IngredientTypes WHERE Name=?", (ingredienttype,))
         id = cur.fetchone()
-        print "%s : %s" % (toppingtype, id[0])
+        print "%s : %s" % (ingredienttype, id[0])
         return id[0]
 
 def create_ingredients_table():
@@ -134,40 +135,85 @@ def create_ingredients_table():
     with con:
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS Ingredients;")
-        cur.execute("CREATE TABLE Ingredients(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, DisplayName TEXT, Type INTEGER, FOREIGN KEY(Type) REFERENCES ToppingTypes(Id));")
+        cur.execute("CREATE TABLE Ingredients (Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, DisplayName TEXT, Type INTEGER, FOREIGN KEY (Type) REFERENCES IngredientTypes(Id));")
 
 def init_ingredients_table():
     con = connect_db()
     with con:
         cur = con.cursor()
         for i in ingredients:
-            t = (i[0], i[1], get_toppingtype_id(i[2]))
+            t = (i[0], i[1], get_ingredienttype_id(i[2]))
             cur.execute("INSERT INTO Ingredients (Name, DisplayName, Type) VALUES (?, ?, ?);", t)
             print " %s : %s" % (cur.lastrowid, t)
-        
+ 
+def get_ingredient_id(ingredient):
+    print ingredient
+    print "Looking for Ingredient " + ingredient
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT Id FROM Ingredients WHERE Name=?", (ingredient,))
+        id = cur.fetchone()
+        print "%s : %s" % (ingredient, id[0])
+        return id[0]
+       
+def create_pizzasingredients_table():
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS PizzasIngredients;")
+        cur.execute("CREATE TABLE PizzasIngredients (Pizza INTEGER, Ingredient INTEGER, FOREIGN KEY (Pizza) REFERENCES Pizzas (Id), FOREIGN KEY (Ingredient) REFERENCES Ingredients (Id));")
 
+def create_pizzas_table():
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS Pizzas;")
+        cur.execute("CREATE TABLE Pizzas (Id INTEGER PRIMARY KEY AUTOINCREMENT, CreatedOn DATE, CreatedBy TEXT);")
 
+def add_pizza(pizza):
+    pizza_id = None
+    con = connect_db()
+    now = datetime.datetime.now()
+    with con:
+        cur = con.cursor()
+        t = (now, "TESTUSER")
+        cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
+        print "Created pizza %s" % (cur.lastrowid)
+        pizza_id = cur.lastrowid
+        for k in pizza.keys():
+            print "%s : %s" %(k, pizza[k])
+            for i in pizza[k]:
+                t = [pizza_id, get_ingredient_id(i)]
+                cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
+
+    return pizza_id    
+         
 def connect_db():
     return sqlite3.connect(DATABASE)
 
 def create_db():
     """Create the database tables"""
-    create_toppingtypes_table()
+    create_ingredienttypes_table()
     create_ingredients_table()
+    create_pizzas_table()
+    create_pizzasingredients_table()
 
 def init_db():
     """Initialise the database"""
-    init_toppingstypes_table()
+    init_ingredienttypes_table()
     init_ingredients_table()
 
 def show_ingredients():
     con = connect_db()
     with con:
         cur = con.cursor()    
-        cur.execute("SELECT Name FROM ToppingTypes")
+        cur.execute("SELECT * FROM Ingredients WHERE Name='garlic_focaccia';")
         rows = cur.fetchall()
         for row in rows:
-            print row[0]
+            print row
+
+    
 
 def main():
     create_db()

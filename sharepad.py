@@ -3,6 +3,7 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
+from sharepad_db import create_db, init_db, add_pizza
 
 # TODO: store this in a common locatio
 # configuration
@@ -21,10 +22,12 @@ def connect_db():
 
 def init_db():
     """Creates the database tables."""
-    with closing(connect_db()) as db:
-        with app.open_resource('schema.sql') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+    sharepad_db.create_db()
+    sharepad_db.init_db()
+    # with closing(connect_db()) as db:
+    #     with app.open_resource('schema.sql') as f:
+    #         db.cursor().executescript(f.read())
+    #     db.commit()
 
 
 @app.before_request
@@ -87,6 +90,7 @@ def process_form(form):
     items = defaultdict(list)
     for k in form.keys():
         items[k] = form.getlist(k)
+    add_pizza(items) 
     print "////////////////////////////////////////"    
     print items
     return items
