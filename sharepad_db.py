@@ -2,6 +2,7 @@ from __future__ import with_statement
 from contextlib import closing
 import sqlite3
 import datetime
+from collections import defaultdict
 
 # TODO: store this in a common location
 # configuration
@@ -83,7 +84,7 @@ ingredients = [
 
 # Herbs
     ["basil", "Basil", "herbs"],
-    ["herbs", "Herbs", "herbs"],
+    ["chillies", "Chillies", "herbs"],
     ["chives", "Chives", "herbs"],
     ["coriander", "Coriander", "herbs"],
     ["garlic", "Garlic", "herbs"],
@@ -181,6 +182,8 @@ def add_pizza(pizza):
         cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
         print "Created pizza %s" % (cur.lastrowid)
         pizza_id = cur.lastrowid
+        print "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+        print "PIZZA:"
         for k in pizza.keys():
             print "%s : %s" %(k, pizza[k])
             for i in pizza[k]:
@@ -188,6 +191,29 @@ def add_pizza(pizza):
                 cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
 
     return pizza_id    
+
+def get_pizza(pizza_id):
+    con = connect_db()
+    con.row_factory = sqlite3.Row 
+
+    now = datetime.datetime.now()
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Pizzas WHERE Id=?;", (pizza_id,))
+        p = cur.fetchone()
+        pizza = defaultdict(list)        
+        # pizza['id'] = p['Id']
+        # pizza['created_on'] = p['CreatedOn']
+        # pizza['created_by'] = p['CreatedBy']
+        cur.execute("SELECT it.Name as category, i.Name as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
+        rows = cur.fetchall()
+        ingredients = defaultdict(list)
+        for row in rows:
+            ingredients[row['category']].append(row['ingredient'])
+        # dump return value
+        # for k in ingredients.keys():
+        #     print "%s : %s" %(k, ingredients[k])
+    return ingredients    
          
 def connect_db():
     return sqlite3.connect(DATABASE)
@@ -208,7 +234,7 @@ def show_ingredients():
     con = connect_db()
     with con:
         cur = con.cursor()    
-        cur.execute("SELECT * FROM Ingredients WHERE Name='garlic_focaccia';")
+        cur.execute("SELECT * FROM Ingredients;")
         rows = cur.fetchall()
         for row in rows:
             print row
@@ -218,7 +244,6 @@ def show_ingredients():
 def main():
     create_db()
     init_db()
-    show_ingredients()
 
 if __name__ == "__main__":
     main()

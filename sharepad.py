@@ -3,7 +3,7 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
-from sharepad_db import create_db, init_db, add_pizza
+from sharepad_db import create_db, init_db, add_pizza, get_pizza
 
 # TODO: store this in a common locatio
 # configuration
@@ -78,9 +78,9 @@ def show_post(post_id):
     # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
-@app.route('/projects/')
-def projects():
-    return 'The project page'
+@app.route('/random')
+def random_pizza():
+    return render_template('random.html', pizza = get_pizza(2))
 
 @app.route('/about')
 def about():
@@ -90,9 +90,7 @@ def process_form(form):
     items = defaultdict(list)
     for k in form.keys():
         items[k] = form.getlist(k)
-    add_pizza(items) 
-    print "////////////////////////////////////////"    
-    print items
+    add_pizza(items)    
     return items
 
 @app.route('/share', methods=['GET', 'POST'])
