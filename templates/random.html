@@ -1,0 +1,29 @@
+  {% extends "layout.html" %}
+  {% block body %}
+  <h1>Share your own...</h1>
+  <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
+  <div class="message">
+    Here you go!
+  </div>
+  <ul class="pizza">
+    {%if pizza is none %}
+    Something went wrong...
+    {% else %}  
+    {% for k in (pizza.keys()) %}
+    <h2>{{ k }}</h2>
+    {% for v in (pizza[k]) %}
+    {{ v }}
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+
+  </ul>
+  <div class="social">
+    Share this pizza on
+    <ul class="icons">
+      <li>Facebook</li>
+      <li>Twitter</li>
+    </ul>
+  </div>
+  {% endblock %}
+
