@@ -5,6 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for, ses
 from collections import defaultdict
 from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_count
 import random
+import pretty
 
 # TODO: store this in a common locatio
 # configuration

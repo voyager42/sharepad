@@ -203,7 +203,7 @@ def get_pizza(pizza_id):
         # pizza['id'] = p['Id']
         # pizza['created_on'] = p['CreatedOn']
         # pizza['created_by'] = p['CreatedBy']
-        cur.execute("SELECT it.Name as category, i.Name as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
+        cur.execute("SELECT it.DisplayName as category, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
         rows = cur.fetchall()
         ingredients = defaultdict(list)
         for row in rows:
