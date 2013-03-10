@@ -3,7 +3,8 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
-from sharepad_db import create_db, init_db, add_pizza, get_pizza
+from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_count
+import random
 
 # TODO: store this in a common locatio
 # configuration
@@ -80,7 +81,7 @@ def show_post(post_id):
 
 @app.route('/random')
 def random_pizza():
-    return render_template('random.html', pizza = get_pizza(2))
+    return render_template('random.html', pizza = get_pizza(random.randint(0, get_pizza_count())))
 
 @app.route('/about')
 def about():
@@ -111,5 +112,6 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
+    random.seed()
     app.debug = True
     app.run()

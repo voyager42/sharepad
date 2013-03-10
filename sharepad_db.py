@@ -182,8 +182,6 @@ def add_pizza(pizza):
         cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
         print "Created pizza %s" % (cur.lastrowid)
         pizza_id = cur.lastrowid
-        print "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
-        print "PIZZA:"
         for k in pizza.keys():
             print "%s : %s" %(k, pizza[k])
             for i in pizza[k]:
@@ -214,7 +212,16 @@ def get_pizza(pizza_id):
         # for k in ingredients.keys():
         #     print "%s : %s" %(k, ingredients[k])
     return ingredients    
-         
+
+def get_pizza_count():
+    con = connect_db()
+    now = datetime.datetime.now()
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT COUNT(*) FROM Pizzas;");
+        count = cur.fetchone()[0]
+    return count
+
 def connect_db():
     return sqlite3.connect(DATABASE)
 
