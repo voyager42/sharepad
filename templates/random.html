@@ -4,7 +4,7 @@
   <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
   
   <div class="pizza">
-    {% if pizza is defined }
+    {% if pizza is defined %}
     {% if pizza is none %}
       <div class="message">
         Something went wrong...
@@ -13,13 +13,13 @@
       <div class="message">
         Here you go!
       </div>
-    <!-- {{ pizza | pprint}} -->
-      {% for k in (pizza.keys()) %}
-      <h3 class="ingr_type">{{ k }}</h3>
-        {% for v in (pizza[k]) %}
-          <div class="ingr">{{ v }}</div>
-        {% endfor %}
+      <!-- {{ pizza | pprint}} -->
+    {% for k in (pizza.ingredients.keys()) %}
+    <h3 class="ingr_type">{{ k }}</h3>
+      {% for v in (pizza.ingredients[k]) %}
+        <div class="ingr">{{ v }}</div>
       {% endfor %}
+    {% endfor %}
     {% endif %}
   </div>
   {%if pizza is not none %}
@@ -30,6 +30,7 @@
       <li>Twitter</li>
     </ul>
   </div>
+  {% endif %}
   {% endif %}
   {% endblock %}
 
