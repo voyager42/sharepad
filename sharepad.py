@@ -7,13 +7,13 @@ from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_coun
 import random
 import pretty
 
-# TODO: store this in a common locatio
+# TODO: store this in a common location
 # configuration
 DATABASE = 'sharepad.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
-PASSWORD = 'default'
+PASSWORD = 'secret'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -22,10 +22,10 @@ def connect_db():
     """Returns a new connection to the database."""
     return sqlite3.connect(app.config['DATABASE'])
 
-def init_db():
+def initialise_db():
     """Creates the database tables."""
-    sharepad_db.create_db()
-    sharepad_db.init_db()
+    create_db()
+    init_db()
     # with closing(connect_db()) as db:
     #     with app.open_resource('schema.sql') as f:
     #         db.cursor().executescript(f.read())
@@ -52,11 +52,14 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or \
-                request.form['password'] != 'secret':
-            error = 'Invalid credentials'
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+            session['foo'] = "bar"         
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+            session['quux'] = "baz"
         else: 
-            session['username'] = request.form['username']
+            session['username'] = "hello" #request.form['username']
             flash('You were successfully logged in')
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
@@ -98,6 +101,10 @@ def random_pizza():
     return render_template('random.html', pizza=pizza)
 
 
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 @app.route('/about')
 def about():

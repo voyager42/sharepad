@@ -10,7 +10,7 @@ DATABASE = 'sharepad.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
-PASSWORD = 'default'
+PASSWORD = 'secret'
 
 # name, display_name
 ingr_types = [
@@ -138,17 +138,14 @@ def init_ingredienttypes_table():
         cur = con.cursor()
         for i in ingr_types:
             t = (i[0], i[1])
-            cur.execute("INSERT INTO Ingredienttypes (Name, DisplayName) VALUES (?, ?);", t)
-            print " %s : %s" % (cur.lastrowid, t)
+            cur.execute("INSERT INTO IngredientTypes (Name, DisplayName) VALUES (?, ?);", t)
 
 def get_ingredienttype_id(ingredienttype):
-    print "Looking for Ingredient Type" + ingredienttype
     con = connect_db()
     with con:
         cur = con.cursor()
         cur.execute("SELECT Id FROM IngredientTypes WHERE Name=?", (ingredienttype,))
         id = cur.fetchone()
-        print "%s : %s" % (ingredienttype, id[0])
         return id[0]
 
 def create_ingredients_table():
@@ -165,17 +162,13 @@ def init_ingredients_table():
         for i in ingredients:
             t = (i[0], i[1], get_ingredienttype_id(i[2]))
             cur.execute("INSERT INTO Ingredients (Name, DisplayName, Type) VALUES (?, ?, ?);", t)
-            print " %s : %s" % (cur.lastrowid, t)
  
 def get_ingredient_id(ingredient):
-    print ingredient
-    print "Looking for Ingredient " + ingredient
     con = connect_db()
     with con:
         cur = con.cursor()
         cur.execute("SELECT Id FROM Ingredients WHERE Name=?", (ingredient,))
         id = cur.fetchone()
-        print "%s : %s" % (ingredient, id[0])
         return id[0]
        
 def create_pizzasingredients_table():
@@ -200,10 +193,8 @@ def add_pizza(pizza):
         cur = con.cursor()
         t = (now, "TESTUSER")
         cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
-        print "Created pizza %s" % (cur.lastrowid)
         pizza_id = cur.lastrowid
-        for k in pizza.keys():
-            print "%s : %s" %(k, pizza[k])
+        for k in pizza.keys():            
             for i in pizza[k]:
                 t = [pizza_id, get_ingredient_id(i)]
                 cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
@@ -214,10 +205,9 @@ def get_pizza(pizza_id):
     con = connect_db()
     con.row_factory = sqlite3.Row 
 
-    now = datetime.datetime.now()
     with con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM Pizzas WHERE Id=?;", (pizza_id,))
+        cur.execute("SELECT * FROM Pizzas WHERE Id=?;", (pizza_id,))        
         p = cur.fetchone()
         if p is None:
             pizza = None
@@ -236,7 +226,6 @@ def get_pizza(pizza_id):
 
 def get_pizza_count():
     con = connect_db()
-    now = datetime.datetime.now()
     with con:
         cur = con.cursor()
         cur.execute("SELECT COUNT(*) FROM Pizzas;");
@@ -266,6 +255,35 @@ def get_pizzatype_id(pizzatype):
         id = cur.fetchone()
         return id[0]
 
+def get_sharepad():
+    """returns a dict which is useful for generating the sharepad form"""
+    sharepad = {}
+    con = connect_db()
+    con.row_factory = sqlite3.Row    
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT Name as name, DisplayName as display_name FROM IngredientTypes;")
+        rows = cur.fetchall()
+        sharepad['groups'] = rows        
+        cur.execute("SELECT i.Name as name, i.DisplayName as display_name, it.Name as type_name, it.DisplayName as type_display_name FROM Ingredients as i JOIN IngredientTypes as it ON it.Id=i.Type;")
+        rows = cur.fetchall()
+        i = 1
+        elements = []
+        prev_type_name = None
+        for r in rows:
+            item = {}
+            for k in ['name', 'display_name', 'type_name']:
+                item[k] = r[k]
+            # convert number to 0 padded string of length 3
+            item['id'] = "{}_{:03d}".format(r['type_name'], i)
+            elements.append(item)
+            if prev_type_name == r['type_name'] or prev_type_name is None:
+                i = i + 1
+            else:
+                i = 1
+                prev_type_name = r['type_name']
+        sharepad['elements'] = elements        
+    return sharepad
 
 def connect_db():
     return sqlite3.connect(DATABASE)
