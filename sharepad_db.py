@@ -104,6 +104,26 @@ ingredients = [
     ["100s_and_1000s", "100's & 1000's", "sweets"]
 ]
 
+pizza_types = [
+    ["italian", "Italian"],
+    ["greek", "Greek"],
+    ["portuguese", "Portuguese"],
+    ["american", "American"],
+    ["french", "French"],
+    ["english", "English"],
+    ["meaty", "Meaty"],
+    ["spicy", "Spicy"],
+    ["fresh", "Fresh"],
+    ["veggie", "Veggie"],
+    ["mediterranean", "Mediterranean"],
+    ["african", "African"],
+    ["cheesy", "Cheesy"],
+    ["american", "American"],
+    ["tropical", "Tropical"],
+    ["healthy", "Healthy"],
+    ["crazy", "Crazy"],
+    ["fishy", "Fishy"]
+]
 
 def create_ingredienttypes_table():
     con = connect_db()
@@ -222,6 +242,30 @@ def get_pizza_count():
         count = cur.fetchone()[0]
     return count
 
+def create_pizzatypes_table():
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS PizzaTypes;")
+        cur.execute("CREATE TABLE PizzaTypes (Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, DisplayName TEXT);")
+
+def init_pizzatypes_table():
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        for i in ingr_types:
+            t = (i[0], i[1])
+            cur.execute("INSERT INTO PizzaTypes (Name, DisplayName) VALUES (?, ?);", t)
+
+def get_pizzatype_id(pizzatype):
+    con = connect_db()
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT Id FROM PizzaTypes WHERE Name=?", (pizzatype,))
+        id = cur.fetchone()
+        return id[0]
+
+
 def connect_db():
     return sqlite3.connect(DATABASE)
 
@@ -231,11 +275,13 @@ def create_db():
     create_ingredients_table()
     create_pizzas_table()
     create_pizzasingredients_table()
+    create_pizzatypes_table()
 
 def init_db():
     """Initialise the database"""
     init_ingredienttypes_table()
     init_ingredients_table()
+    init_pizzatypes_table()
 
 def show_ingredients():
     con = connect_db()
@@ -245,8 +291,6 @@ def show_ingredients():
         rows = cur.fetchall()
         for row in rows:
             print row
-
-    
 
 def main():
     create_db()
