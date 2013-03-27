@@ -3,7 +3,7 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
-from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_count
+from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_count, get_sharepad
 import random
 import pretty
 
@@ -61,6 +61,13 @@ def login():
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
 
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    flash('You were logged out')
+    return redirect(url_for('index'))
+
 # @app.route('/hello')
 # def hello():
 #     return 'Hello World'
@@ -111,14 +118,7 @@ def share():
         submitted = process_form(request.form)
         return render_template('pizza.html', pizza=submitted)
        #g.db.execute('insert into entries (ingredients) values (?)', [request.form['ingredients']])
-    return render_template('share.html')
-                               
-
-@app.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
+    return render_template('share.html', sharepad=get_sharepad())
 
 if __name__ == '__main__':
     random.seed()
