@@ -82,7 +82,15 @@ def show_post(post_id):
 
 @app.route('/random')
 def random_pizza():
-    return render_template('random.html', pizza = get_pizza(random.randint(0, get_pizza_count())))
+    count = get_pizza_count()
+    if count > 0:
+        id = random.randint(1, get_pizza_count())
+        pizza = get_pizza(id) 
+    else:
+        pizza = None
+    return render_template('random.html', pizza=pizza)
+
+
 
 @app.route('/about')
 def about():
@@ -116,3 +124,5 @@ if __name__ == '__main__':
     random.seed()
     app.debug = True
     app.run()
+else:
+    random.seed()

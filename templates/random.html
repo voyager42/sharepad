@@ -2,22 +2,27 @@
   {% block body %}
   <h1>Share your own...</h1>
   <img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
-  <div class="message">
-    Here you go!
-  </div>
-  <ul class="pizza">
-    {%if pizza is none %}
-    Something went wrong...
+  
+  <div class="pizza">
+    {% if pizza is defined }
+    {% if pizza is none %}
+      <div class="message">
+        Something went wrong...
+      </div>
     {% else %}  
-    {% for k in (pizza.keys()) %}
-    <h2>{{ k }}</h2>
-    {% for v in (pizza[k]) %}
-    {{ v }}
-    {% endfor %}
-    {% endfor %}
+      <div class="message">
+        Here you go!
+      </div>
+    <!-- {{ pizza | pprint}} -->
+      {% for k in (pizza.keys()) %}
+      <h3 class="ingr_type">{{ k }}</h3>
+        {% for v in (pizza[k]) %}
+          <div class="ingr">{{ v }}</div>
+        {% endfor %}
+      {% endfor %}
     {% endif %}
-
-  </ul>
+  </div>
+  {%if pizza is not none %}
   <div class="social">
     Share this pizza on
     <ul class="icons">
@@ -25,5 +30,6 @@
       <li>Twitter</li>
     </ul>
   </div>
+  {% endif %}
   {% endblock %}
 

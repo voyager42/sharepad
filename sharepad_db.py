@@ -219,19 +219,20 @@ def get_pizza(pizza_id):
         cur = con.cursor()
         cur.execute("SELECT * FROM Pizzas WHERE Id=?;", (pizza_id,))
         p = cur.fetchone()
-        pizza = defaultdict(list)        
-        # pizza['id'] = p['Id']
-        # pizza['created_on'] = p['CreatedOn']
-        # pizza['created_by'] = p['CreatedBy']
-        cur.execute("SELECT it.DisplayName as category, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
-        rows = cur.fetchall()
-        ingredients = defaultdict(list)
-        for row in rows:
-            ingredients[row['category']].append(row['ingredient'])
-        # dump return value
-        # for k in ingredients.keys():
-        #     print "%s : %s" %(k, ingredients[k])
-    return ingredients    
+        if p is None:
+            pizza = None
+        else:
+            pizza = defaultdict(list)        
+            pizza['id'] = p['Id']
+            pizza['created_on'] = p['CreatedOn']
+            pizza['created_by'] = p['CreatedBy']
+            cur.execute("SELECT it.DisplayName as category, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
+            rows = cur.fetchall()
+            ingredients = defaultdict(list)
+            for row in rows:
+                ingredients[row['category']].append(row['ingredient'])
+            pizza['ingredients'] = ingredients
+    return pizza    
 
 def get_pizza_count():
     con = connect_db()
