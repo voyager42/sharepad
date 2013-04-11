@@ -2,6 +2,7 @@ from __future__ import with_statement
 from contextlib import closing
 import sqlite3
 import datetime
+import itertools
 from collections import defaultdict
 
 # TODO: store this in a common location
@@ -66,7 +67,7 @@ ingredients = [
     ["artichokes", "Artichokes", "veggies"],
     ["avocado", "Avocado", "veggies"],
     ["baby_marrow", "Baby Marrow", "veggies"],
-    ["bananas", "Bananas", "veggies"],
+    ["banana", "Banana", "veggies"],
     ["brinjals", "Brinjals", "veggies"],
     ["capers", "Capers", "veggies"],
     ["caramelised_onions", "Caramelised Onions", "veggies"],
@@ -146,7 +147,10 @@ def get_ingredienttype_id(ingredienttype):
         cur = con.cursor()
         cur.execute("SELECT Id FROM IngredientTypes WHERE Name=?", (ingredienttype,))
         id = cur.fetchone()
-        return id[0]
+        try:
+            return id[0]
+        except TypeError:
+            return None
 
 def create_ingredients_table():
     con = connect_db()
@@ -183,7 +187,7 @@ def create_pizzas_table():
     with con:
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS Pizzas;")
-        cur.execute("CREATE TABLE Pizzas (Id INTEGER PRIMARY KEY AUTOINCREMENT, CreatedOn DATE, CreatedBy TEXT);")
+        cur.execute("CREATE TABLE Pizzas (Id INTEGER PRIMARY KEY AUTOINCREMENT, CreatedOn DATE, CreatedBy TEXT, Type INTEGER, FOREIGN KEY (Type) REFERENCES PizzaTypes (Id));")
 
 def add_pizza(pizza):
     pizza_id = None
@@ -191,17 +195,18 @@ def add_pizza(pizza):
     now = datetime.datetime.now()
     with con:
         cur = con.cursor()
-        t = (now, "TESTUSER")
+        t = (now, "TESTUSER") # TODO pizza type
         cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
         pizza_id = cur.lastrowid
-        for k in pizza.keys():            
-            for i in pizza[k]:
-                t = [pizza_id, get_ingredient_id(i)]
-                cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
-
+        ingredients = list(itertools.chain.from_iterable(pizza['ingredients'].values()))
+        for i in ingredients:
+            print "{}".format(i)
+            ingr_id = get_ingredient_id(i)
+            t = [pizza_id, ingr_id]
+            cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
     return pizza_id    
 
-def get_pizza(pizza_id):
+def get_pizza_by_id(pizza_id):
     con = connect_db()
     con.row_factory = sqlite3.Row 
 
@@ -224,6 +229,32 @@ def get_pizza(pizza_id):
             pizza['ingredients'] = ingredients
     return pizza    
 
+def get_pizza_by_type(pizza_type):
+    con = connect_db()
+    con.row_factory = sqlite3.Row 
+
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Pizzas WHERE Type=?;", (pizza_type,))        
+        p = cur.fetchall()
+        if p is None:
+            pizzas = None
+        else:
+            pizzas = []
+            for pi in p:
+                pizza = defaultdict(list)        
+                pizza['id'] = pi['Id']
+                pizza['created_on'] = pi['CreatedOn']
+                pizza['created_by'] = pi['CreatedBy']
+                cur.execute("SELECT it.DisplayName as category, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza['id'],))
+                rows = cur.fetchall()
+                ingredients = defaultdict(list)
+                for row in rows:
+                    ingredients[row['category']].append(row['ingredient'])
+                pizza['ingredients'] = ingredients
+                pizzas.append(pizza)
+    return pizzas    
+
 def get_pizza_count():
     con = connect_db()
     with con:
@@ -243,7 +274,7 @@ def init_pizzatypes_table():
     con = connect_db()
     with con:
         cur = con.cursor()
-        for i in ingr_types:
+        for i in pizza_types:
             t = (i[0], i[1])
             cur.execute("INSERT INTO PizzaTypes (Name, DisplayName) VALUES (?, ?);", t)
 
@@ -282,8 +313,31 @@ def get_sharepad():
             else:
                 i = 1
                 prev_type_name = r['type_name']
-        sharepad['elements'] = elements        
+        sharepad['elements'] = elements
+
+        cur.execute("SELECT Name as name, DisplayName as display_name FROM PizzaTypes;")
+        rows = cur.fetchall()
+        categories = []
+        for r in rows:
+            item = {}
+            item['name'] = r['name']
+            item['display_name'] = r['display_name']
+            print "{}  {}".format(item['name'], item['display_name'])
+            categories.append(item)
+        sharepad['categories'] = categories
     return sharepad
+
+def get_admin():
+    admin = {}
+    con = connect_db()
+    con.row_factory = sqlite3.Row 
+    with con:
+        cur = con.cursor()   
+        cur.execute("SELECT Name as name, DisplayName as display_name FROM PizzaTypes;")
+        rows = cur.fetchall()
+    admin['pizza_types'] = rows   
+
+    return admin
 
 def connect_db():
     return sqlite3.connect(DATABASE)
@@ -292,9 +346,9 @@ def create_db():
     """Create the database tables"""
     create_ingredienttypes_table()
     create_ingredients_table()
+    create_pizzatypes_table()
     create_pizzas_table()
     create_pizzasingredients_table()
-    create_pizzatypes_table()
 
 def init_db():
     """Initialise the database"""
@@ -310,6 +364,16 @@ def show_ingredients():
         rows = cur.fetchall()
         for row in rows:
             print row
+
+def process_form(form):        
+    ingredient_types = [i[0] for i in ingr_types]
+    pizza = defaultdict(dict)
+    pizza['ingredients'] = defaultdict(dict)
+    for i in ingredient_types:
+        pizza['ingredients'][i] = form.getlist(i)   
+    pizza['category'] = form.getlist('category')[0]
+    add_pizza(pizza)    
+    return pizza
 
 def main():
     create_db()

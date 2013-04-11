@@ -3,7 +3,10 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
-from sharepad_db import create_db, init_db, add_pizza, get_pizza, get_pizza_count, get_sharepad
+from sharepad_db import create_db, init_db, add_pizza, get_pizza_by_id, get_pizza_by_type, get_pizza_count, get_sharepad, process_form
+from sharepad_db import get_admin
+from sharepad_pizza import Pizza
+
 import random
 import pretty
 
@@ -95,27 +98,29 @@ def random_pizza():
     count = get_pizza_count()
     if count > 0:
         id = random.randint(1, get_pizza_count())
-        pizza = get_pizza(id) 
+        pizza = get_pizza_by_id(id) 
     else:
         pizza = None
     return render_template('random.html', pizza=pizza)
 
+@app.route('/type')
+def random_type():
+    pizzas = get_pizza_by_type(2)
+    if pizzas is not None:    
+        #pizza = random.choice(pizzas)
+        pizza = pizzas[0]
+    return render_template('random.html', pizza=pizza)
 
 
 @app.route('/admin')
-def admin():
-    return render_template('admin.html')
+def admin():    
+    return render_template('admin.html', admin=get_admin())
 
 @app.route('/about')
 def about():
     return 'The about page'
 
-def process_form(form):
-    items = defaultdict(list)
-    for k in form.keys():
-        items[k] = form.getlist(k)
-    add_pizza(items)    
-    return items
+
 
 @app.route('/share', methods=['GET', 'POST'])
 def share():

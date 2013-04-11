@@ -14,16 +14,26 @@
             <h3>{{ group.display_name }}</h3>
             {% for i in sharepad.elements %}
               {% if group.name == i.type_name %}
-                <label for="{{i.id}}">{{i.display_name}}</label>
+                <!-- {i.type_name}}_{{i.name}} -->
+                <label for="{{i.type_name}}_{{i.name}}">{{i.display_name}}</label>
                 {% if i.type_name == 'pizza_base' %}          
-                  <input type="radio" name="{{i.type_name}}" id="{{i.id}}" value="{{i.name}}"/>
+                  <input type="radio" name="{{i.type_name}}" id="{{i.type_name}}_{{i.name}}" value="{{i.name}}"/>                
                 {% else %}          
-                  <input type="checkbox" name="{{i.type_name}}" id="{{i.id}}" value="{{i.name}}"/>
+                  <input type="checkbox" name="{{i.type_name}}" id="{{i.type_name}}_{{i.name}}" value="{{i.name}}"/>
                 {% endif %}
               {% endif %}
             {% endfor %}
           </div>
       {% endfor %}
+
+        <div data-role="collapsible" data-collapsed="true">
+          <h3>Category</h3>
+          <select name="category">
+          {% for category in sharepad.categories %}
+          <option value="{{category.name}}">{{category.display_name}}</option>
+          {% endfor %}
+          </select>
+        </div>
         <input type="submit" value="Submit"/>
       </div>
     </form>
