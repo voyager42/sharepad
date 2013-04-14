@@ -103,13 +103,16 @@ def random_pizza():
         pizza = None
     return render_template('random.html', pizza=pizza)
 
-@app.route('/type')
-def random_type():
-    pizzas = get_pizza_by_type(2)
-    if pizzas is not None:    
-        #pizza = random.choice(pizzas)
-        pizza = pizzas[0]
-    return render_template('random.html', pizza=pizza)
+@app.route('/type/<type>')
+def random_type(type):
+    pizza = None
+    pizzas = get_pizza_by_type(type)
+    if pizzas:
+        pizza = random.choice(pizzas)       
+        error = None
+    else:        
+        error = "Nothing found..."
+    return render_template('random.html', pizza=pizza, error=error)
 
 
 @app.route('/admin')
@@ -125,11 +128,10 @@ def about():
 @app.route('/share', methods=['GET', 'POST'])
 def share():
     if request.method == 'POST':
-        # validate in js?        
+        # TODO: validate in js
         # write to database
         submitted = process_form(request.form)
         return render_template('pizza.html', pizza=submitted)
-       #g.db.execute('insert into entries (ingredients) values (?)', [request.form['ingredients']])
     return render_template('share.html', sharepad=get_sharepad())
 
 if __name__ == '__main__':
