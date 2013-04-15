@@ -195,8 +195,8 @@ def add_pizza(pizza):
     now = datetime.datetime.now()
     with con:
         cur = con.cursor()
-        t = (now, "TESTUSER") # TODO pizza type
-        cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy) VALUES (?, ?);", t)
+        t = (now, "TESTUSER", get_pizzatype_id(pizza['category'])) # TODO pizza type
+        cur.execute("INSERT INTO Pizzas (CreatedOn, CreatedBy, Type) VALUES (?, ?, ?);", t)
         pizza_id = cur.lastrowid
         ingredients = list(itertools.chain.from_iterable(pizza['ingredients'].values()))
         for i in ingredients:
@@ -235,7 +235,7 @@ def get_pizza_by_type(pizza_type):
 
     with con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM Pizzas WHERE Type=?;", (pizza_type,))        
+        cur.execute("SELECT * FROM Pizzas WHERE Type=?;", (get_pizzatype_id(pizza_type),))        
         p = cur.fetchall()
         if p is None:
             pizzas = None
