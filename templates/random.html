@@ -6,8 +6,12 @@
   <div class="pizza">
     {% if pizza is defined %}
     {% if pizza is none %}
-      <div class="message">
-        Something went wrong...
+      <div class="error">
+        {% if error is defined %}
+          {{ error }}
+        {% else %}        
+           Something went wrong...
+        {% endif %}
       </div>
     {% else %}  
       <div class="message">
