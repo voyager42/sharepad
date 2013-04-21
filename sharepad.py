@@ -4,7 +4,7 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
 from sharepad_db import create_db, init_db, add_pizza, get_pizza_by_id, get_pizza_by_type, get_pizza_count, get_sharepad, process_form
-from sharepad_db import get_admin
+from sharepad_db import get_admin, get_description
 from sharepad_pizza import Pizza
 
 import random
@@ -98,10 +98,14 @@ def random_pizza():
     count = get_pizza_count()
     if count > 0:
         id = random.randint(1, get_pizza_count())
-        pizza = get_pizza_by_id(id) 
+        pizza = get_description(get_pizza_by_id(id)) 
+        error = None
+        flash('Here you go', 'error')
     else:
         pizza = None
-    return render_template('random.html', pizza=pizza)
+        error = u'Nothing found...'
+        flash(error, 'error')
+    return render_template('random.html', pizza=pizza, error=error)
 
 @app.route('/type/<type>')
 def random_type(type):

@@ -221,12 +221,21 @@ def get_pizza_by_id(pizza_id):
             pizza['id'] = p['Id']
             pizza['created_on'] = p['CreatedOn']
             pizza['created_by'] = p['CreatedBy']
-            cur.execute("SELECT it.DisplayName as category, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
+            cur.execute("SELECT it.Name as category, it.DisplayName as category_name, i.DisplayName as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
             rows = cur.fetchall()
             ingredients = defaultdict(list)
+            categories = defaultdict(list)
+            base = ""
             for row in rows:
-                ingredients[row['category']].append(row['ingredient'])
+                categories[row['category']] = row['category_name']
+                print "{}".format(row['category_name'])
+                if row['category'] != 'pizza_base':
+                    ingredients[row['category']].append(row['ingredient'])
+                else:
+                    base = row['ingredient']
             pizza['ingredients'] = ingredients
+            pizza['base'] = base
+            pizza['categories'] = categories
     return pizza    
 
 def get_pizza_by_type(pizza_type):
@@ -285,6 +294,33 @@ def get_pizzatype_id(pizzatype):
         cur.execute("SELECT Id FROM PizzaTypes WHERE Name=?", (pizzatype,))
         id = cur.fetchone()
         return id[0]
+
+def join_and(items):
+    if items:        
+        if len(items) >= 2:
+            joined = "{} and {}".format(", ".join(items[:-2]), items[-1])
+        else:
+            joined = " and ".join(items)
+    else:
+        joined = ""
+    return joined
+
+def get_description(pizza):
+
+    ingredients = pizza['ingredients']
+    pizza_base = pizza['base'] # assume only one pizza base
+    extra_cheese = ingredients['extra_cheese']
+    meat_fish_and_poultry = ingredients['meat_fish_and_poultry']
+    veggies = ingredients['veggies']
+    herbs = ingredients['herbs']
+    sweets = ingredients['sweets']
+    description = join_and(extra_cheese + meat_fish_and_poultry + veggies + herbs + sweets)
+
+    if description:
+        formatted = "{} with {}".format(pizza_base, description)
+    else:
+        formatted = None
+    return formatted
 
 def get_sharepad():
     """returns a dict which is useful for generating the sharepad form"""
