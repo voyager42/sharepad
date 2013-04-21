@@ -4,20 +4,64 @@
 		"selected_items":
 		[
 			[
-				"get",
-				"get_pizza_count"
+				"ingr",
+				"ingredients	(global, instance)"
 			],
 			[
 				"ing",
-				"ingredients"
+				"ingr_id	(local, instance)"
 			],
 			[
-				"ingr",
-				"ingredient"
+				"None",
+				"None"
 			],
 			[
 				"pizza",
-				"pizza_id"
+				"pizza"
+			],
+			[
+				"Pizza",
+				"PizzaTypes"
+			],
+			[
+				"ty",
+				"type_display_name"
+			],
+			[
+				"de",
+				"defaultdict	(imported, instance)"
+			],
+			[
+				"typ",
+				"type_name"
+			],
+			[
+				"Inge",
+				"IngredientTypes"
+			],
+			[
+				"create_pi",
+				"create_pizzatypes_table"
+			],
+			[
+				"Te",
+				"TestCase"
+			],
+			[
+				"test",
+				"test_client"
+			],
+			[
+				"tes",
+				"test_client"
+			],
+			[
+				"try",
+				"try	Try/Except/Else"
+			],
+			[
+				"get",
+				"get_pizza_count"
 			],
 			[
 				"ingredients",
@@ -55,7 +99,7 @@
 			"file": "sharepad.py",
 			"settings":
 			{
-				"buffer_size": 3325,
+				"buffer_size": 4067,
 				"line_ending": "Windows"
 			}
 		},
@@ -63,7 +107,66 @@
 			"file": "sharepad_db.py",
 			"settings":
 			{
-				"buffer_size": 9105,
+				"buffer_size": 14232,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"file": "sharepad_pizza.py",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sharepad_tests.py",
+			"settings":
+			{
+				"buffer_size": 2143,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/admin.html",
+			"settings":
+			{
+				"buffer_size": 1193,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/layout.html",
+			"settings":
+			{
+				"buffer_size": 1026,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/app.html",
+			"settings":
+			{
+				"buffer_size": 2309,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/share.html",
+			"settings":
+			{
+				"buffer_size": 1609,
 				"line_ending": "Windows"
 			}
 		},
@@ -71,7 +174,23 @@
 			"file": "templates/random.html",
 			"settings":
 			{
-				"buffer_size": 671,
+				"buffer_size": 818,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/pizza.html",
+			"settings":
+			{
+				"buffer_size": 430,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 461,
 				"line_ending": "Windows"
 			}
 		}
@@ -116,6 +235,10 @@
 	},
 	"file_history":
 	[
+		"/C/Users/johan/Dropbox/Backup-codes-johan.kohler.txt",
+		"/C/Users/johan/Documents/GitHub/sharepad/templates/random.html",
+		"/C/Users/johan/Documents/GitHub/sharepad/templates/pizza.html",
+		"/C/Users/johan/Dropbox/irc",
 		"/C/Users/johan/Documents/GitHub/sharepad/templates/app.html",
 		"/C/Program Files (x86)/git-cola/bin/cola",
 		"/C/Program Files (x86)/git-cola/bin/git-cola",
@@ -125,13 +248,16 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 44.0
 	},
 	"find_in_files":
 	{
-		"height": 108.0,
+		"height": 105.0,
 		"where_history":
 		[
+			"app.html",
+			"",
+			"sharepad_tests.py",
 			""
 		]
 	},
@@ -140,6 +266,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"a\"",
+			"\"b\"",
+			"\"c\"",
+			"efaultdict",
+			"get_pizza_by_id",
+			"get_pizza(",
+			"Ingredients",
+			"share.html",
+			"get_pizza",
+			"successfully",
+			"flaskr",
 			"Bacon",
 			"bacon",
 			"Bacon",
@@ -165,6 +302,12 @@
 		"regex": false,
 		"replace_history":
 		[
+			"\"c\"",
+			"\"a\"",
+			"\"b\"",
+			"get_pizza_by_id(",
+			"get_pizza_by_id",
+			"sharepad"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -175,7 +318,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -183,15 +326,15 @@
 					"file": "sharepad.py",
 					"settings":
 					{
-						"buffer_size": 3325,
+						"buffer_size": 4067,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								318,
-								318
+								2893,
+								2898
 							]
 						],
 						"settings":
@@ -201,7 +344,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2122.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -211,15 +354,15 @@
 					"file": "sharepad_db.py",
 					"settings":
 					{
-						"buffer_size": 9105,
+						"buffer_size": 14232,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4059,
-								4059
+								11091,
+								11091
 							]
 						],
 						"settings":
@@ -229,25 +372,106 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 8911.0,
+						"translation.y": 6389.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "templates/random.html",
 					"settings":
 					{
-						"buffer_size": 671,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								507,
-								507
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "sharepad_pizza.py",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "sharepad_tests.py",
+					"settings":
+					{
+						"buffer_size": 2143,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1441,
+								1441
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1104.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "templates/admin.html",
+					"settings":
+					{
+						"buffer_size": 1193,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								567,
+								567
 							]
 						],
 						"settings":
@@ -255,6 +479,172 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "templates/layout.html",
+					"settings":
+					{
+						"buffer_size": 1026,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								796,
+								796
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "templates/app.html",
+					"settings":
+					{
+						"buffer_size": 2309,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								611,
+								611
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 76.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "templates/share.html",
+					"settings":
+					{
+						"buffer_size": 1609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								153,
+								153
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "templates/random.html",
+					"settings":
+					{
+						"buffer_size": 818,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								530,
+								530
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "templates/pizza.html",
+					"settings":
+					{
+						"buffer_size": 430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								86,
+								86
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "README.md",
+					"settings":
+					{
+						"buffer_size": 461,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								38,
+								38
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -302,7 +692,7 @@
 	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 90.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -323,16 +713,16 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 50.0,
+	"side_bar_width": 224.0,
 	"status_bar_visible": true
 }
