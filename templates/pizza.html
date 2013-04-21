@@ -1,7 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>Share your own...</h1>
-<img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
 <div class="message">
   Sounds delicious!
 </div>
@@ -9,9 +7,9 @@
 {{pizza.category}}
 <ul class="pizza">
   {% for k in (pizza.ingredients.keys()) %}
-  <h2>{{ k }}</h2>
+  <!-- <h2>{{ k }}</h2> -->
   {% for v in (pizza.ingredients[k]) %}
-  {{ v }}
+  {{ v }},
   {% endfor %}
   {% endfor %}
 </ul>

@@ -1,8 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>Share your own...</h1>
-<img alt="Andiccio24 logo" src="/static/andiccio24-logo.png"/>
   <p>
+    Enter your base and toppings on the Order Pad below, submit and then share on Facebook or Twitter.
     <form name="input" action="/share" method="post">
       <div data-role="collapsible-set">
       {% for group in sharepad.groups %}
