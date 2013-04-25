@@ -5,9 +5,11 @@
     {% if pizza is none %}
       <div class="error">
         {% if error is defined %}
+        {% if error is not none %}
           {{ error }}
         {% else %}        
            Something went wrong...
+        {% endif %}
         {% endif %}
       </div>
     {% else %}  
@@ -15,7 +17,11 @@
 
     {% endif %}
   </div>
+   <form name="input" action="">
+    <input type="submit" value="Another"/>
+   </form>
   {%if pizza is not none %}
+  <!-- <p>
   <div class="social">
     Share this pizza on
     <ul class="icons">
@@ -23,7 +29,16 @@
       <li>Twitter</li>
     </ul>
   </div>
+  </p> -->
   {% endif %}
   {% endif %}
+
+<!--  <div data-role="navbar">
+  <ul>
+      <li><a href="#" class="ui-btn-active">By Style</a></li>
+      <li><a href="#">By Ingredients</a></li>
+      <li><a href="#">Random</a></li>
+  </ul>
+</div> --><!-- /navbar -->
   {% endblock %}
 

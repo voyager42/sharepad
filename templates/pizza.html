@@ -1,24 +1,21 @@
-{% extends "layout.html" %}
-{% block body %}
-<div class="message">
-  Sounds delicious!
-</div>
-
-{{pizza.category}}
-<ul class="pizza">
-  {% for k in (pizza.ingredients.keys()) %}
-  <!-- <h2>{{ k }}</h2> -->
-  {% for v in (pizza.ingredients[k]) %}
-  {{ v }},
-  {% endfor %}
-  {% endfor %}
-</ul>
-<div class="social">
-  Share this pizza on
-  <ul class="icons">
-    <li>Facebook</li>
-    <li>Twitter</li>
-  </ul>
-</div>
+  {% extends "layout.html" %}
+  {% block body %}
+    {% if pizza is defined %}
+    {% if pizza is not none %}
+    <p>
+    <div class="pizza">        
+      {{pizza}}
+    </div>
+    </p> 
+  <p>
+  <div class="social">
+    Share this pizza on
+    <ul class="icons">
+      <li>Facebook</li>
+      <li>Twitter</li>
+    </ul>
+  </div>
+  </p>
+  {% endif %}
+  {% endif %}
 {% endblock %}
-
