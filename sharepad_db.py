@@ -306,20 +306,21 @@ def join_and(items):
     return joined
 
 def get_description(pizza):
+    formatted = None
+    if pizza:    
+        ingredients = pizza['ingredients']
+        pizza_base = pizza['base'] # assume only one pizza base
+        extra_cheese = ingredients['extra_cheese']
+        meat_fish_and_poultry = ingredients['meat_fish_and_poultry']
+        veggies = ingredients['veggies']
+        herbs = ingredients['herbs']
+        sweets = ingredients['sweets']
+        description = join_and(extra_cheese + meat_fish_and_poultry + veggies + herbs + sweets)
 
-    ingredients = pizza['ingredients']
-    pizza_base = pizza['base'] # assume only one pizza base
-    extra_cheese = ingredients['extra_cheese']
-    meat_fish_and_poultry = ingredients['meat_fish_and_poultry']
-    veggies = ingredients['veggies']
-    herbs = ingredients['herbs']
-    sweets = ingredients['sweets']
-    description = join_and(extra_cheese + meat_fish_and_poultry + veggies + herbs + sweets)
+        if description:
+            formatted = "{} with {}".format(pizza_base, description)
 
-    if description:
-        formatted = "{} with {}".format(pizza_base, description)
-    else:
-        formatted = None
+
     return formatted
 
 def get_sharepad():
