@@ -560,9 +560,11 @@ def get_styles():
     return styles
 
 def get_bases():
+    # TODO: get bases from db
     return [i[0] for i in ingredients if i[2] == 'pizza_base']
 
 def get_ingredient_types():
+    # TODO: get ingr_types from db
     return [i[0] for i in ingr_types]
 
 def get_random_pizza():
@@ -574,10 +576,19 @@ def get_random_pizza():
         pizza = get_pizza_by_id(id)
     return pizza
 
+def get_ingr_displaynames():
+    con = connect_db()
+    con.row_factory = sqlite3.Row    
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT Name as name, DisplayName as display_name FROM Ingredients;")
+        rows = cur.fetchall()
+        ingr_displaynames = {}
+        for r in rows:
+            ingr_displaynames[r['name']] = r['display_name']
+    return ingr_displaynames
+
 def is_valid_base(base):
-    print "======================="
-    print "base %s" %(base)
-    print get_bases()
     return base in get_bases()
 
 def is_valid_style(style):
@@ -605,6 +616,7 @@ def is_valid_pizza(pizza):
     for ingredient_type in get_ingredient_types():
         for ingredient in pizza['ingredients'][ingredient_type]:
             try:
+                # TODO: get styles_ingredients from db
                 assert(ingredient in styles_ingredients[style])
             except:
                 print "ingredient {} is not in style {}".format(ingredient, style)

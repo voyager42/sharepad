@@ -55,8 +55,6 @@ def pizzas_are_equal(pizza1, pizza2):
             elif (pizza2.has_key(k) and pizza2[k]==pizza1[k]):
                 print "has key %s and matches" % (k)
     return retval
-                    
-
         
 def test_add_pizza():
     some_styles = [i[0] for i in db.get_styles() if i[0] not in ['wacky', 'sweet']]
@@ -68,8 +66,16 @@ def test_add_pizza():
         print pizza2
         assert(pizzas_are_equal(pizza,pizza2))
 
-
-
+def test_ingr_displaynames():
+    ingr_displaynames = db.get_ingr_displaynames()
+    con = db.connect_db()
+    con.row_factory = sqlite3.Row 
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT Id as id, Name as name, DisplayName as display_name FROM Ingredients;")
+        rows = cur.fetchall()
+        for r in rows:
+            assert(r['display_name'] == ingr_displaynames[r['name']])
 
 
 
