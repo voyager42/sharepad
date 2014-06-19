@@ -26,10 +26,10 @@
       {% endfor %}
 
         <div data-role="collapsible" data-collapsed="true">
-          <h3>Category</h3>
-          <select name="category">
-          {% for category in sharepad.categories %}
-          <option value="{{category.name}}">{{category.display_name}}</option>
+          <h3>Style</h3>
+          <select name="style">
+          {% for style in sharepad.styles %}
+          <option value="{{style.name}}">{{style.display_name}}</option>
           {% endfor %}
           </select>
         </div>

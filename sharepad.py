@@ -1,11 +1,9 @@
 from __future__ import with_statement
-from contextlib import closing
+
 import sqlite3
 from flask import Flask, flash, redirect, render_template, request, url_for, session, g
 from collections import defaultdict
-from sharepad_db import create_db, init_db, add_pizza, get_pizza_by_id, get_pizza_by_type, get_pizza_count, get_sharepad, process_form
-from sharepad_db import get_admin, get_description
-from sharepad_pizza import Pizza
+from sharepad_db import create_tables, init_database, add_pizza, get_pizza_by_id, get_pizza_by_style, get_pizza_count, get_sharepad, process_form, get_pizza_ids, generate_pizza_by_style, get_admin, get_description, is_valid_style, get_random_pizza, is_valid_pizza
 
 import random
 import pretty
@@ -27,8 +25,8 @@ def connect_db():
 
 def initialise_db():
     """Creates the database tables."""
-    create_db()
-    init_db()
+    create_tables()
+    init_database()
     # with closing(connect_db()) as db:
     #     with app.open_resource('schema.sql') as f:
     #         db.cursor().executescript(f.read())
@@ -93,30 +91,52 @@ def show_post(post_id):
     # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
+@app.route('/all')
+def all_pizzas():
+    pizzas = """<html>"""
+    ids = get_pizza_ids()
+    for id in ids:
+        pizzas += get_description(get_pizza_by_id(id))
+        pizzas += """<br>"""
+    pizzas+="""</html>"""
+    error = None
+    return render_template('random.html', pizza=pizzas, error=error)
+
+
 @app.route('/random')
 def random_pizza():
-    count = get_pizza_count()
-    if count > 0:
-        id = random.randint(1, get_pizza_count())
-        pizza = get_description(get_pizza_by_id(id)) 
-        error = None
-        flash('Here you go', 'error')
-    else:
+    pizza = get_random_pizza()
+    if pizza is None:
+        print "Pizza is None when id = %s" %(id) 
         pizza = None
         error = u'Nothing found...'
-        flash(error, 'error')
-    return render_template('random.html', pizza=pizza, error=error)
-
-@app.route('/type/<type>')
-def random_type(type):
-    pizza = None
-    pizzas = get_pizza_by_type(type)
-    if pizzas:
-        pizza = random.choice(pizzas)       
+    else:
+        pizza_desc = get_description(pizza)
         error = None
-    else:        
+    return render_template('random.html', pizza=pizza_desc, error=error)
+
+@app.route('/generate/<style>')
+def generate_type(style):
+    if (is_valid_style(style)):
+        pizza = generate_pizza_by_style(style)
+        print pizza
+        error = None
+        pizza_desc = get_description(pizza)
+    else:
+        pizza_desc = ""
+        error = "something went wrong"
+    return render_template('random.html', pizza=pizza_desc, error=error)
+
+
+@app.route('/style/<style>')
+def random_style(style):
+    error = None
+    pizza = get_pizza_by_style(style)
+    print is_valid_pizza(pizza)
+    pizza_desc = get_description(pizza)
+    if pizza == None:
         error = "Nothing found..."
-    return render_template('random.html', pizza=pizza, error=error)
+    return render_template('random.html', pizza=pizza_desc, error=error)
 
 
 @app.route('/admin')
@@ -135,7 +155,8 @@ def share():
         # TODO: validate in js
         # write to database
         submitted = process_form(request.form)
-        return render_template('pizza.html', pizza=submitted)
+        pizza = get_description(get_pizza_by_id(submitted)) 
+        return render_template('pizza.html', pizza=pizza)
     return render_template('share.html', sharepad=get_sharepad())
 
 if __name__ == '__main__':
