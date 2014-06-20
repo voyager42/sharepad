@@ -395,9 +395,16 @@ def get_description(pizza):
         veggies = ingredients['veggies']
         herbs = ingredients['herbs']
         sweets = ingredients['sweets']
-        description = join_and(extra_cheese + meat_fish_and_poultry + veggies + herbs + sweets)
+        ingr_displaynames = get_ingr_displaynames()
+        ingrs = extra_cheese + meat_fish_and_poultry + veggies + herbs + sweets
+        ingr_display_names = []
+        display_names = get_ingr_displaynames()
+        for i in ingrs:
+            ingr_display_names.append(display_names[i])
+            
+        description = join_and(ingr_display_names)
         if description:
-            formatted = "{} base with {} ({})".format(base, description, style)
+            formatted = "{} base with {} ({})".format(display_names[base], description, style)
 
     return formatted
 
