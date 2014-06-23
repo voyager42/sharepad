@@ -1,0 +1,15 @@
+.pizza {
+    padding: 10px;
+    background-color: rgba(255,255,255,0.5);
+    font-size:110%;
+    font-alignment: center;
+}
+.ui-body-c
+{
+    background: #ffffff !important;
+    background-image: url(images/pizza.jpg) !important;
+    max-width:100%; max-height:100%;
+}
+.ui-bar-a {
+	background: rgba(170,0,0,0.5) !important;
+}
