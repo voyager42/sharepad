@@ -1,0 +1,1 @@
+from sharepad import app
