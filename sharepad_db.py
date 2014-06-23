@@ -193,10 +193,7 @@ def get_ingredient_id(ingredient):
     con = connect_db()
     with con:
         cur = con.cursor()
-        try:
-            cur.execute("SELECT Id FROM Ingredients WHERE Name=?", (ingredient,))
-        except:
-            print ingredient
+        cur.execute("SELECT Id FROM Ingredients WHERE Name=?", (ingredient,))
         id = cur.fetchone()
         if id==None:
             print "Ingredient %s not found in db" %(ingredient)
@@ -237,7 +234,6 @@ def init_styles_ingredients_table():
         cur = con.cursor()
         for i in styles_ingredients:
             for j in styles_ingredients[i]:
-                print "j = ", j
                 t = (get_style_id(i), get_ingredient_id(j))
                 cur.execute("INSERT INTO StylesIngredients (Style, Ingredient) VALUES (?, ?);", t)
 
@@ -252,15 +248,11 @@ def add_pizza(pizza):
         pizza_id = cur.lastrowid
         ingredients = list(itertools.chain.from_iterable(pizza['ingredients'].values()))
         for i in ingredients:
-            #print "{}".format(i)
-            print "i = ", i
             ingr_id = get_ingredient_id(i)
             t = [pizza_id, ingr_id]
             cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
         print pizza
         base = pizza['pizza_base']
-        if base == []:
-            print "BASE ERROR"
         ingr_id = get_ingredient_id(base)
         t = [pizza_id, ingr_id]
         cur.execute("INSERT INTO PizzasIngredients (Pizza, Ingredient) VALUES (?, ?);", t)
@@ -275,7 +267,6 @@ def get_pizza_by_id(pizza_id):
         cur.execute("SELECT * FROM Pizzas WHERE Id=?;", (pizza_id,))        
         p = cur.fetchone()
         if p is None:
-            #print "COULD NOT FIND PIZZA BY ID"
             pizza = None
         else:
             pizza = defaultdict(dict)        
@@ -287,14 +278,11 @@ def get_pizza_by_id(pizza_id):
             rows = cur.fetchall()
             ingredients = defaultdict(list)
             base = ""
-            print "-------------------------"
             for row in rows:
-                print row['category']
                 if row['category'] != 'pizza_base':
                     ingredients[row['category']].append(row['ingredient'])
                 else:
                     base = row['ingredient']
-            print "-------------------------"
             pizza['ingredients'] = ingredients
             pizza['pizza_base'] = base
         cur.execute("SELECT pt.Name as type, pt.Id as id FROM Styles as pt WHERE pt.Id=?;", (style,)) 
@@ -607,7 +595,6 @@ def is_valid_pizza(pizza):
 
     assert(pizza.has_key('ingredients'))
     assert(pizza.has_key('pizza_base'))
-    print pizza['pizza_base']
     assert(is_valid_base(pizza['pizza_base']))
     assert(pizza['ingredients'].has_key('extra_cheese'))
     assert(pizza['ingredients'].has_key('meat_fish_and_poultry'))

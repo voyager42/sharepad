@@ -107,7 +107,6 @@ def all_pizzas():
 def random_pizza():
     pizza = get_random_pizza()
     if pizza is None:
-        print "Pizza is None when id = %s" %(id) 
         pizza = None
         error = u'Nothing found...'
     else:
@@ -119,7 +118,6 @@ def random_pizza():
 def generate_type(style):
     if (is_valid_style(style)):
         pizza = generate_pizza_by_style(style)
-        print pizza
         error = None
         pizza_desc = get_description(pizza)
     else:
@@ -132,7 +130,6 @@ def generate_type(style):
 def random_style(style):
     error = None
     pizza = get_pizza_by_style(style)
-    print is_valid_pizza(pizza)
     pizza_desc = get_description(pizza)
     if pizza == None:
         error = "Nothing found..."
