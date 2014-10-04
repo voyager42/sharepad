@@ -2,10 +2,10 @@ from __future__ import with_statement
 from contextlib import closing
 import sqlite3
 
-import sharepad_db as db
+from sharepad import sharepad_db
 
 def test_get_sharepad():
-    sharepad = db.get_sharepad()
+    sharepad = sharepad_db.get_sharepad()
     assert(sharepad.has_key('elements'))
     assert(sharepad.has_key('groups'))
     names=[]
@@ -15,7 +15,7 @@ def test_get_sharepad():
         names.append(i['name'])
 
 def test_styles_ingredients():
-    con = db.connect_db()
+    con = sharepad_db.connect_db()
     con.row_factory = sqlite3.Row 
     with con:
         cur = con.cursor()
@@ -33,10 +33,10 @@ def test_styles_ingredients():
                     print "ingredient {} is not in style {}".format(ingredient, style)
 
 def test_generate_pizza_by_style():
-    some_styles = [i[0] for i in db.get_styles() if i[0] not in ['wacky', 'sweet']]
+    some_styles = [i[0] for i in sharepad_db.get_styles() if i[0] not in ['wacky', 'sweet']]
     for style in some_styles:
-        pizza = db.generate_pizza_by_style(style)
-        assert(db.is_valid_pizza(pizza))
+        pizza = sharepad_db.generate_pizza_by_style(style)
+        assert(sharepad_db.is_valid_pizza(pizza))
     
 def pizzas_are_equal(pizza1, pizza2):
     retval = True
@@ -57,18 +57,18 @@ def pizzas_are_equal(pizza1, pizza2):
     return retval
         
 def test_add_pizza():
-    some_styles = [i[0] for i in db.get_styles() if i[0] not in ['wacky', 'sweet']]
+    some_styles = [i[0] for i in sharepad_db.get_styles() if i[0] not in ['wacky', 'sweet']]
     for style in some_styles:
-        pizza = db.generate_pizza_by_style(style)
+        pizza = sharepad_db.generate_pizza_by_style(style)
         print pizza
-        id = db.add_pizza(pizza)
-        pizza2 = db.get_pizza_by_id(id)
+        id = sharepad_db.add_pizza(pizza)
+        pizza2 = sharepad_db.get_pizza_by_id(id)
         print pizza2
         assert(pizzas_are_equal(pizza,pizza2))
 
 def test_ingr_displaynames():
-    ingr_displaynames = db.get_ingr_displaynames()
-    con = db.connect_db()
+    ingr_displaynames = sharepad_db.get_ingr_displaynames()
+    con = sharepad_db.connect_db()
     con.row_factory = sqlite3.Row 
     with con:
         cur = con.cursor()
