@@ -21,12 +21,25 @@ SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'secret'
 
+
+class IngredientType(db.Model):
+    __tablename__ = "IngredientTypes"
+    id = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String(40))
+    displayname  = db.Column(db.String(40))
+    def __init__(self, name, displayname):
+        self.name  = name
+        self.displayname = displayname
+
+    def __repr__(self):
+        return '<IngredientType %r, %r, %r>' % (self.id, self.name, self.displayname)
+
 class Ingredient(db.Model):
     __tablename__ = "Ingredients"
     id = db.Column(db.Integer, primary_key=True)
     name  = db.Column(db.String(40))
     displayname  = db.Column(db.String(40))
-    type = db.Column(db.Integer)
+    type = db.Column(db.Integer, db.ForeignKey(IngredientType.id))
     def __init__(self, name, displayname, type):
         self.name  = name
         self.displayname = displayname
@@ -48,18 +61,6 @@ class Pizza(db.Model):
 
     def __repr__(self):
         return '<Pizza %r, %r, %r>' % (self.createdOn, self.createdBy, self.style)
-
-class IngredientType(db.Model):
-    __tablename__ = "IngredientTypes"
-    id = db.Column(db.Integer, primary_key=True)
-    name  = db.Column(db.String(40))
-    displayname  = db.Column(db.String(40))
-    def __init__(self, name, displayname):
-        self.name  = name
-        self.displayname = displayname
-
-    def __repr__(self):
-        return '<IngredientType %r, %r, %r>' % (self.id, self.name, self.displayname)
 
 class PizzaIngredient(db.Model):
     pizza = db.Column(db.Integer, db.ForeignKey(Pizza.id), primary_key=True)
@@ -94,7 +95,7 @@ class StyleIngredient(db.Model):
         self.ingredient = ingredient
 
     def __repr__(self):
-        return '<StyleIngredient %r, %r>' % (self.style, self.ingredient)
+        return '<StyleIngredient %r, %r, %r>' % (self.id, self.style, self.ingredient)
 
 # name, display_name
 ingr_types = [
@@ -266,8 +267,10 @@ def init_styles_ingredients_table():
 def add_pizza(pizza):
     pizza_id = None
     now = datetime.datetime.now()
-    pizza = Pizza(now, "TESTUSER", get_style_id(pizza['style']))
-    pizza_id = db.session.add(pizza)
+    print pizza
+    p = Pizza(now, "TESTUSER", get_style_id(pizza['style']))
+    print p
+    pizza_id = db.session.add(p)
     print pizza_id
 # TODO get lastrowid??
         # ingredients = list(itertools.chain.from_iterable(pizza['ingredients'].values()))
@@ -292,8 +295,7 @@ def get_pizza_by_id(pizza_id):
         pizza['created_on'] = p.createdOn
         pizza['created_by'] = p.createdBy
         style = p.style
-        print PizzaIngredient.query.join(ingredient).all()
-    return None
+        
         #cur.execute("SELECT it.Name as category, it.DisplayName as category_name, i.Name as ingredient FROM PizzasIngredients as pi JOIN Ingredients as i ON pi.Ingredient=i.Id JOIN IngredientTypes as it ON Type=it.Id WHERE pi.Pizza=?;", (pizza_id,))
         # rows = cur.fetchall()
         #     ingredients = defaultdict(list)
@@ -409,60 +411,37 @@ def get_rand_length(l):
         return 1
 
 def generate_pizza_by_style(style):
-    return None
-    # con = connect_db()
-    # con.row_factory = sqlite3.Row
-    # random.seed()
-    # with con:
-    #     cur = con.cursor()
-    #     cur.execute("SELECT i.Id, i.Name as name, i.DisplayName as name, it.Id, it.Name as type, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'pizza_base',))
-    #     p = cur.fetchall()
-    #     pb = [i['name'] for i in p]
-    #     pizza_base = random.choice(pb)
+    init_database()
 
-    #     cur.execute("SELECT i.Id, i.Name as name, i.DisplayName as name, it.Id, it.Name as type, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'extra_cheese',))
-    #     p = cur.fetchall()
-    #     ec = [i['name'] for i in p if  i['type']=='extra_cheese']
-    #     extra_cheese = random.sample(ec, get_rand_length(ec))
-                
-    #     cur.execute("SELECT i.Id, i.Name as name, i.DisplayName as name, it.Id, it.Name as type, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'meat_fish_and_poultry',))
-    #     p = cur.fetchall()
-    #     mfp = [i['name'] for i in p if  i['type']=='meat_fish_and_poultry']
-    #     meat_fish_and_poultry = random.sample(mfp, get_rand_length(mfp))
-        
-    #     cur.execute("SELECT i.Id, i.Name as name, i.DisplayName as name, it.Id, it.Name as type, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'veggies',))
-    #     p = cur.fetchall()
-    #     v = [i['name'] for i in p if  i['type']=='veggies']
-    #     veggies = random.sample(v, get_rand_length(v))
+    pb = StyleIngredient.query.join(Ingredient).join(IngredientType).filter(StyleIngredient.style==get_style_id(style), IngredientType.name=='pizza_base').all()
+    pizza_base = random.choice(pb)
+
+    ec = StyleIngredient.query.join(Ingredient).join(IngredientType).filter(StyleIngredient.style==get_style_id(style), IngredientType.name=='extra_cheese').all()
+    extra_cheese = random.sample(ec, get_rand_length(ec))
+
+    mfp = StyleIngredient.query.join(Ingredient).join(IngredientType).filter(StyleIngredient.style==get_style_id(style), IngredientType.name=='meat_fish_and_poultry').all()
+    meat_fish_and_poultry = random.sample(mfp, get_rand_length(mfp))
+
+    v = StyleIngredient.query.join(Ingredient).join(IngredientType).filter(StyleIngredient.style==get_style_id(style), IngredientType.name=='veggies').all()
+    veggies  = random.sample(v, get_rand_length(v))
     
-    #     cur.execute("SELECT i.Id, i.Name as name, i.DisplayName as name, it.Id, it.Name as type, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'herbs',))
-    #     p = cur.fetchall()
+    h = StyleIngredient.query.join(Ingredient).join(IngredientType).filter(StyleIngredient.style==get_style_id(style), IngredientType.name=='herbs').all()
+    herbs  = random.sample(h, get_rand_length(h))
+     
+    sweets = []
+    pizza = defaultdict(dict)        
+    pizza['pizza_base'] = pizza_base
+    pizza['ingredients'] = defaultdict(list)
+    pizza['ingredients']['veggies'] = veggies
+    pizza['ingredients']['meat_fish_and_poultry'] = meat_fish_and_poultry
+    pizza['ingredients']['extra_cheese'] = extra_cheese
+    pizza['ingredients']['herbs'] = herbs
+    pizza['ingredients']['sweets'] = sweets
+    pizza['style'] = style
+    pizza['created_on'] = datetime.datetime.now()
+    pizza['created_by'] = "GENERATED"
 
-    #     h = [i['name'] for i in p if  i['type']=='herbs']
-    #     herbs = random.sample(h, get_rand_length(h))
-
-    #     # cur.execute("SELECT i.Id, i.Name, i.DisplayName, it.Id, it.Name, it.DisplayName FROM StylesIngredients as si JOIN Ingredients as i ON si.Ingredient=i.Id JOIN IngredientTypes as it ON i.Type=it.Id WHERE (Style=? AND it.Name=?);", (get_style_id(style), 'sweets',))
-    #     # p = cur.fetchall()
-
-    #     # sw = [i[1] for i in p if  i[4]=='sweets']
-    #     # try:
-    #     #     sweets = random.sample(sw, get_rand_length(sw))
-    #     # except:
-    #     sweets = []
-        
-    #     pizza = defaultdict(dict)        
-    #     pizza['pizza_base'] = pizza_base
-    #     pizza['ingredients'] = defaultdict(list)
-    #     pizza['ingredients']['veggies'] = veggies
-    #     pizza['ingredients']['meat_fish_and_poultry'] = meat_fish_and_poultry
-    #     pizza['ingredients']['extra_cheese'] = extra_cheese
-    #     pizza['ingredients']['herbs'] = herbs
-    #     pizza['ingredients']['sweets'] = sweets
-    #     pizza['style'] = style
-    #     pizza['created_on'] = datetime.datetime.now()
-    #     pizza['created_by'] = "GENERATED"
-
-    # return pizza
+    return pizza
 
 def get_sharepad():
     """returns a dict which is useful for generating the sharepad form"""
@@ -615,7 +594,6 @@ def is_valid_pizza(pizza):
 def main():
     create_tables()
     init_database()
-
 if __name__ == "__main__":
     main()
 
