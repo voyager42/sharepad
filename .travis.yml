@@ -8,8 +8,7 @@ install:
   - "pip install -e ."
   - "pip install coveralls"
 script:
-  # No flake8 yet.
-  # - "flake8 sharepad"
   - "py.test --cov=sharepad sharepad"
+  - "flake8 sharepad"
 after_success:
   - "coveralls"
