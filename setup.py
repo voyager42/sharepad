@@ -6,7 +6,7 @@ setup(
     name='sharepad',
     version=version,
     description='Share your Andiccio24 pizza creations',
-    long_description=open('README.md', 'rb').read(),
+    long_description=open('README.rst', 'rb').read(),
     author='Johan Kohler',
     author_email='johan.kohler@gmail.com',
     url='https://github.com/voyager42/sharepad',
