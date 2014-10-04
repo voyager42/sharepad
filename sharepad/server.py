@@ -5,7 +5,6 @@ from flask import Flask, flash, redirect, render_template, request, url_for, ses
 from collections import defaultdict
 from sharepad_db import create_tables, init_database, add_pizza, get_pizza_by_id, get_pizza_by_style, get_pizza_count, get_sharepad, process_form, get_pizza_ids, generate_pizza_by_style, get_admin, get_description, is_valid_style, get_random_pizza, is_valid_pizza
 
-import random
 import pretty
 
 # TODO: store this in a common location
@@ -155,10 +154,3 @@ def share():
         pizza = get_description(get_pizza_by_id(submitted)) 
         return render_template('pizza.html', pizza=pizza)
     return render_template('share.html', sharepad=get_sharepad())
-
-if __name__ == '__main__':
-    random.seed()
-    app.debug = True
-    app.run()
-else:
-    random.seed()
