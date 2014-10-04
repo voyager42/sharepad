@@ -1,7 +1,7 @@
 import sqlite3
 
 from sharepad import sharepad_db
-from sharepad.sharepad_db import ingredients, styles_ingredients
+from sharepad.ingredients import ingredients, styles_ingredients
 
 
 def test_get_sharepad():
