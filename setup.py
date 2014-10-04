@@ -20,5 +20,6 @@ setup(
         'Werkzeug==0.9.6',
         'gunicorn==19.0.0',
         'pretty==0.1',
+        'flask-sqlalchemy'
     ],
 )
