@@ -30,7 +30,7 @@ def test_styles_ingredients():
                 try:
                     assert(ingredient in ingredients[styles_ingredients[style]][1])
                 except:
-                    print "ingredient {} is not in style {}".format(ingredient, style)
+                    print "ingredient {0} is not in style {1}".format(ingredient, style)
 
 def test_generate_pizza_by_style():
     some_styles = [i[0] for i in sharepad_db.get_styles() if i[0] not in ['wacky', 'sweet']]

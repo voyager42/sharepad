@@ -365,7 +365,7 @@ def get_style_id(style):
 def join_and(items):
     if items:        
         if len(items) >= 2:
-            joined = "{} and {}".format(", ".join(items[:-2]), items[-1])
+            joined = "{0} and {1}".format(", ".join(items[:-2]), items[-1])
         else:
             joined = " and ".join(items)
     else:
@@ -392,7 +392,7 @@ def get_description(pizza):
             
         description = join_and(ingr_display_names)
         if description:
-            formatted = "{} base with {} ({})".format(display_names[base], description, style)
+            formatted = "{0} base with {1} ({2})".format(display_names[base], description, style)
 
     return formatted
 
@@ -477,7 +477,7 @@ def get_sharepad():
             for k in ['name', 'display_name', 'type_name']:
                 item[k] = r[k]
             # convert number to 0 padded string of length 3
-            item['id'] = "{}_{:03d}".format(r['type_name'], i)
+            item['id'] = "{0}_{1:03d}".format(r['type_name'], i)
             elements.append(item)
             if prev_type_name == r['type_name'] or prev_type_name is None:
                 i = i + 1
@@ -493,7 +493,7 @@ def get_sharepad():
             item = {}
             item['name'] = r['name']
             item['display_name'] = r['display_name']
-            # print "{}  {}".format(item['name'], item['display_name'])
+            # print "{0}  {1}".format(item['name'], item['display_name'])
             styles.append(item)
         sharepad['styles'] = styles
     return sharepad
@@ -613,7 +613,7 @@ def is_valid_pizza(pizza):
                 # TODO: get styles_ingredients from db
                 assert(ingredient in styles_ingredients[style])
             except:
-                print "ingredient {} is not in style {}".format(ingredient, style)
+                print "ingredient {0} is not in style {1}".format(ingredient, style)
             assert(get_ingredient_id(ingredient)!=None)
             
     return True
