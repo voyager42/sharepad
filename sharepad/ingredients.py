@@ -1,4 +1,3 @@
-
 # name, display_name
 ingr_types = [
     ["pizza_base", "Pizza Base"],
@@ -122,6 +121,7 @@ styles = [
 ]
 
 styles_ingredients = {
+
     "italian": [
         "margherita", "mini_margherita", "garlic_focaccia", "cheese_focaccia",
         "herb_focaccia", "rosso", "gorgonzola", "mozzarella",
@@ -131,6 +131,7 @@ styles_ingredients = {
         "olives", "sundried_tomatoes", "basil", "chillies", "chives",
         "coriander", "garlic", "roasted_garlic", "rocket", "rosemary",
         "spring_onions"],
+
     "greek": [
         "margherita", "mini_margherita", "garlic_focaccia", "herb_focaccia",
         "pizza_wrap", "feta", "haloumi", "mozzarella", "mini_mozzarella",
@@ -138,6 +139,7 @@ styles_ingredients = {
         "baby_marrow", "brinjals",  "caramelised_onions", "cherry_tomatoes",
         "olives", "onions", "sesame_seeds", "spinach", "chillies", "chives",
         "coriander", "garlic", "rosemary", "spring_onions"],
+
     "portuguese": [
         "margherita", "mini_margherita", "garlic_focaccia", "cheese_focaccia",
         "herb_focaccia", "mozzarella", "mini_mozzarella", "anchovies",
@@ -146,6 +148,7 @@ styles_ingredients = {
         "onions", "spinach", "sundried_tomatoes", "chillies", "chives",
         "coriander", "garlic", "roasted_garlic", "rocket", "rosemary",
         "spring_onions"],
+
     "american": [
         "margherita", "mini_margherita", "garlic_focaccia", "cheese_focaccia",
         "herb_focaccia", "rosso", "nutella", "cheddar", "mozzarella",
@@ -154,6 +157,7 @@ styles_ingredients = {
         "mushrooms", "olives", "onions", "basil", "chillies", "chives",
         "coriander", "garlic", "roasted_garlic", "rocket", "spring_onions",
         "marshmallows", "oreo_biscuits"],
+
     "french": [
         "margherita", "mini_margherita", "gluten_free", "garlic_focaccia",
         "cheese_focaccia", "herb_focaccia", "rosso", "gorgonzola",
@@ -162,6 +166,7 @@ styles_ingredients = {
         "avocado", "baby_marrow", "brinjals", "capers", "cherry_tomatoes",
         "green_peppers", "mushrooms", "onions", "spinach", "chives", "garlic",
         "roasted_garlic", "spring_onions"],
+
     "english": [
         "margherita", "mini_margherita", "garlic_focaccia", "cheese_focaccia",
         "herb_focaccia", "cheddar", "feta", "haloumi", "ham", "bacon",
@@ -169,6 +174,7 @@ styles_ingredients = {
         "brinjals", "capers", "caramelised_onions", "cherry_tomatoes",
         "green_peppers", "mushrooms", "olives", "spinach", "sundried_tomatoes",
         "basil", "chives", "coriander", "rocket", "rosemary"],
+
     "meaty": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "mozzarella", "mini_mozzarella", "parmigiano", "bacon", "biltong",
@@ -178,6 +184,7 @@ styles_ingredients = {
         "mushrooms", "olives", "onions", "peppadews", "pineapple",
         "sesame_seeds", "spinach", "chives", "coriander", "garlic",
         "roasted_garlic", "rocket", "rosemary", "spring_onions"],
+
     "spicy": [
         "margherita", "mini_margherita", "chakalaka", "garlic_focaccia",
         "herb_focaccia", "pizza_wrap", "nutella", "haloumi", "mozzarella",
@@ -186,6 +193,7 @@ styles_ingredients = {
         "green_peppers", "jalapenos", "mushrooms", "olives", "onions",
         "peppadews", "pineapple", "chillies", "chives", "coriander", "garlic",
         "roasted_garlic", "rocket", "rosemary", "spring_onions"],
+
     "fresh": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "chakalaka", "garlic_focaccia", "cheese_focaccia", "herb_focaccia",
@@ -196,6 +204,7 @@ styles_ingredients = {
         "mushrooms", "olives", "onions", "peppadews", "pineapple",
         "sesame_seeds", "spinach", "basil", "chillies", "chives", "coriander",
         "garlic", "rocket", "rosemary", "spring_onions"],
+
     "veggie": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "chakalaka", "garlic_focaccia", "cheese_focaccia", "herb_focaccia",
@@ -207,6 +216,7 @@ styles_ingredients = {
         "onions", "peppadews", "pineapple", "sesame_seeds", "spinach",
         "sundried_tomatoes", "basil", "chillies", "chives", "coriander",
         "garlic", "roasted_garlic", "rocket", "rosemary", "spring_onions"],
+
     "mediterranean": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "garlic_focaccia", "herb_focaccia", "pizza_wrap", "rosso", "feta",
@@ -215,6 +225,7 @@ styles_ingredients = {
         "almonds_roasted", "artichokes", "baby_marrow", "brinjals", "capers",
         "green_peppers", "olives", "sesame_seeds", "sundried_tomatoes",
         "basil", "garlic", "roasted_garlic", "rosemary"],
+
     "african": [
         "margherita", "mini_margherita", "chakalaka", "cheddar", "feta",
         "haloumi", "mozzarella", "mini_mozzarella", "biltong", "lamb", "mince",
@@ -222,6 +233,7 @@ styles_ingredients = {
         "peppadews", "sesame_seeds", "spinach", "sundried_tomatoes", "basil",
         "chillies", "chives", "coriander", "garlic", "roasted_garlic",
         "rocket"],
+
     "cheesy": [
         "margherita", "mini_margherita", "chakalaka", "garlic_focaccia",
         "cheese_focaccia", "herb_focaccia", "cheddar", "feta", "gorgonzola",
@@ -230,6 +242,7 @@ styles_ingredients = {
         "capers", "caramelised_onions", "cherry_tomatoes", "green_peppers",
         "jalapenos", "peppadews", "spinach", "sundried_tomatoes", "basil",
         "chives", "garlic", "roasted_garlic", "rocket", "spring_onions"],
+
     "tropical": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "chakalaka", "garlic_focaccia", "cheese_focaccia", "herb_focaccia",
@@ -237,6 +250,7 @@ styles_ingredients = {
         "ham", "lamb", "spicy_chicken", "avocado", "banana", "cherry_tomatoes",
         "green_peppers", "jalapenos", "onions", "peppadews", "pineapple",
         "spinach", "chillies", "chives", "coriander"],
+
     "healthy": [
         "mini_margherita", "gluten_free", "wholewheat", "chakalaka",
         "garlic_focaccia", "herb_focaccia", "pizza_wrap", "rosso", "feta",
@@ -248,6 +262,7 @@ styles_ingredients = {
         "sesame_seeds", "spinach", "sundried_tomatoes", "basil", "chillies",
         "chives", "coriander", "garlic", "roasted_garlic", "rocket",
         "rosemary", "spring_onions"],
+
     "fishy": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "chakalaka", "garlic_focaccia", "cheese_focaccia", "herb_focaccia",
@@ -258,6 +273,7 @@ styles_ingredients = {
         "olives", "onions", "peppadews", "pineapple", "sesame_seeds",
         "spinach", "sundried_tomatoes", "basil", "chives", "coriander",
         "garlic", "rocket", "spring_onions"],
+
     "sweet": [
         "margherita", "mini_margherita", "gluten_free", "wholewheat",
         "chakalaka", "garlic_focaccia", "cheese_focaccia", "herb_focaccia",
